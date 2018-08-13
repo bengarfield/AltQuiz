@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AltQuiz</title>
+	<script src="https://aframe.io/releases/0.7.0/aframe.js"></script>
+	<script src="https://sdk.altvr.com/libs/altspace.js/2.9.0/altspace.min.js"></script>
+</head>
+<body>
+	<a-scene position='0 0 0' altspace='fullspace: true' sync-system='author: BenG; app: quizStage; refUrl: https://altvr-apps.firebaseio.com/'>
+		<!-- <a-entity n-layout-browser='url: https://shanesedit.org/r/mc; isEnclosure: true'></a-entity> -->
+		<a-sky id='sky' radius='500' src='textures/sky.png'></a-sky>
+
+		<a-entity id='colliders' altspace-cursor-collider='enabled: false'>
+			<a-plane position='0 0 1.5' scale='12 5.5 0' rotation='-90 0 0' material='visible: false'></a-plane>
+			<a-plane position='0 .25 4.25' scale='8 .5 0' rotation='180 0 0' material='visible: false'></a-plane>
+			<a-entity rotation='0 -123 0'>
+				<a-plane position='0 .25 -5.5' scale='4.5 .5 0' material='visible: false'></a-plane>
+			</a-entity>
+			<a-entity rotation='0 123 0'>
+				<a-plane position='0 .25 -5.5' scale='4.5 .5 0' material='visible: false'></a-plane>
+			</a-entity>
+		</a-entity>
+		<!-- <a-cylinder position='0 -.24 0' height='.6' radius='4.05' color='#101' opacity='.9' n-mesh-collider='type: environment; convex: false'></a-cylinder> -->
+
+		<!-- <a-curvedimage position='0 1.56 7.05' rotation='0 135 0' scale='1 1 1' height='3' radius='8.25' theta-length='90' color='#aaa' n-mesh-collider='type: environment; convex: false'></a-curvedimage> -->
+		<a-entity id='wall' n-mesh-collider='type: environment; convex: false'></a-entity>
+
+		<a-entity position='0 0 2.6'>
+			<a-entity id='screenContainer' position='0 0 1.2'>
+				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v0.55'></a-entity>
+
+					<a-plane scale='14 8 1' color='black'></a-plane>
+
+					<a-entity id='titleScreen' position='0 0 0'>
+						<!-- <a-entity position='0 0 .1' scale='2 2 2' n-text='text: Logo\ngoes here'></a-entity> -->
+						<a-entity position='0 0 .01' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz"></a-entity>
+						<!-- <a-entity position='0 0 .01' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz\n<align=center><size=30%>It's a quiz"></a-entity> -->
+						<!-- <a-plane></a-plane> -->
+					</a-entity>
+
+					<a-entity id='gameScreen' position='0 0 -.2'>
+						<a-entity id='aBScreen' position='-3.7 -1.4 .01' n-mesh-collider='type: hologram; convex: false'></a-entity>
+						<a-entity id='bBScreen' position='3.7 -1.4 .01' n-mesh-collider='type: hologram; convex: false'></a-entity>
+						<a-entity id='cBScreen' position='-3.7 -3.1 .01' n-mesh-collider='type: hologram; convex: false'></a-entity>
+						<a-entity id='dBScreen' position='3.7 -3.1 .01' n-mesh-collider='type: hologram; convex: false'></a-entity>
+
+						<a-entity id='questionTScreen' position='0 1.75 .02' n-text='width: 14; height: 4; fontSize: 7; verticalAlign: center; text: ?'></a-entity>
+
+						<a-entity id='aTScreen' position='-3.7 -1.4 .02' n-text='width: 6.5; height: .1; horizontalAlign: left; fontSize: 5; text: A: '></a-entity>
+						<a-entity id='bTScreen' position='3.7 -1.4 .02' n-text='width: 6.5; height: .1; horizontalAlign: left; fontSize: 5; text: B: '></a-entity>
+						<a-entity id='cTScreen' position='-3.7 -3.1 .02' n-text='width: 6.5; height: .1; horizontalAlign: left; fontSize: 5; text: C: '></a-entity>
+						<a-entity id='dTScreen' position='3.7 -3.1 .02' n-text='width: 6.5; height: .1; horizontalAlign: left; fontSize: 5; text: D: '></a-entity>
+
+						<a-entity id='pregameTimeCount' position='0 3.3 .01' n-text='fontSize: 8'></a-entity>
+					</a-entity>
+
+					<a-entity id='endScreen' position='0 0 -.2'>
+						<a-entity id='endGameText' position='0 0 .01' scale='2 2 2' n-text='width: 6; text: Winner:\nPlayer 1'></a-entity>
+						<a-entity id='endGameScoreText' position='5 -1.3 .1' scale='2 2 2' n-text='width: 4; horizontalAlign: left;'></a-entity>
+					</a-entity>
+				</a-entity>
+			</a-entity>
+		</a-entity>
+		
+		<a-entity id='hostPodium' position='2.3 .06 1' rotation='0 95 0'>
+			<a-entity position='0 1.28 -.075' rotation='-73.3 0 0' scale='.03 .03 .03'>
+				<a-plane position='0 0 -.1' scale='16 9 1' color='#666' n-mesh-collider='type: hologram; convex: false'></a-plane>
+
+				<a-entity id='titleScreen2' position='0 0 0'>
+					<a-entity position='0 0 .1' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz"></a-entity>
+					<a-entity id='questionLoadText' position='0 -3.5 .1' n-text='fontSize: 7; text: Questions not loaded'></a-entity>
+				</a-entity>
+
+				<a-entity id='gameScreen2' position='0 0 -.2'>
+					<a-entity id='aB' position='-3.7 -1.4 .05' n-mesh-collider='type: hologram; convex: false'></a-entity>
+					<a-entity id='bB' position='3.7 -1.4 .05' n-mesh-collider='type: hologram; convex: false'></a-entity>
+					<a-entity id='cB' position='-3.7 -3.1 .05' n-mesh-collider='type: hologram; convex: false'></a-entity>
+					<a-entity id='dB' position='3.7 -3.1 .05' n-mesh-collider='type: hologram; convex: false'></a-entity>
+
+					<a-entity id='questionT' position='0 1.75 .1' n-text='width: 14; height: 4; fontSize: 7; verticalAlign: center; text: ?'></a-entity>
+
+					<a-entity id='aT' position='-3.7 -1.4 .15' n-text='width: 6.5; height: .1; horizontalAlign: left; fontSize: 5; text: A: '></a-entity>
+					<a-entity id='bT' position='3.7 -1.4 .15' n-text='width: 6.5; height: .1; horizontalAlign: left; fontSize: 5; text: B: '></a-entity>
+					<a-entity id='cT' position='-3.7 -3.1 .15' n-text='width: 6.5; height: .1; horizontalAlign: left; fontSize: 5; text: C: '></a-entity>
+					<a-entity id='dT' position='3.7 -3.1 .15' n-text='width: 6.5; height: .1; horizontalAlign: left; fontSize: 5; text: D: '></a-entity>
+
+					<a-entity id='pregameTimeCount2' position='0 3.3 .01' n-text='fontSize: 8'></a-entity>
+				</a-entity>
+
+				<a-entity id='endScreen2' position='0 0 -.2'>
+					<a-entity id='endGameText2' position='0 0 .1' scale='2 2 2' n-text='width: 6; text: Winner:\nPlayer 1'></a-entity>
+					<a-entity id='endGameScoreText2' position='5 -1.3 .1' scale='2 2 2' n-text='width: 4; horizontalAlign: left;'></a-entity>
+				</a-entity>
+
+				<a-cylinder id='hostNext' position='0 -7.5 0' rotation='90 0 0' radius='1.5' color='#282' segments-height='1' n-mesh-collider></a-cylinder>
+				<a-entity position='0 -7.5 .525' scale='1.5 1.75 1' n-text='text: >'></a-entity>
+				<a-entity position='-.29 -7.56 .51' scale='1.5 1.1 1' n-text='text: I'></a-entity>
+				<a-entity id='hostButtonText' position='0 -10 0' scale='.75 .75 1' n-text='fontSize: 6; verticalAlign: top;  text: Load\nQuestions'></a-entity>
+
+				<a-entity id='finalRoundIndicator' position='0 0 0'>
+					<a-plane id='finalRoundBack' position='5.5 -6 0' scale='4 1 1' src='textures/finalBack.png' transparent='true' color='#020202'></a-plane>
+					<a-entity position='5.5 -6.03 .1' scale='.5 .5 1' n-text='text: <b><color=black>FINAL ROUND'></a-entity>
+				</a-entity>
+
+				<a-cylinder id='controlB' position='5.5 -8.5 0' rotation='90 0 0' scale='.85 .2 .85' color='#00a' segments-height='1' n-mesh-collider></a-cylinder>
+				<a-plane position='5.5 -8.5 0.11' scale='1.2 1.2 1' src='textures/gear.png' transparent='true' altspace-cursor-collider='enabled: false'></a-plane>
+				<a-entity id='controlPopup' position='5.5 -7 -1' rotation='20 0 0'>
+					<a-plane scale='3.2 1 1' rotation='0 0 0' color='black' opacity='.8' altspace-cursor-collider='enabled: false'></a-plane>
+					<a-entity position='0 0 .05' n-text='fontSize: 4; text: Control Panel'></a-entity>
+				</a-entity>
+
+				<a-cylinder id='resetB' position='-5.5 -8.5 0' rotation='90 0 0' scale='.85 .2 .85' color='#770' segments-height='1' n-mesh-collider></a-cylinder>
+				<!-- <a-entity position='-5.5 -8.5 .11' scale='1 1 1' n-text='text: <size=90%><b>R'></a-entity> -->
+				<a-plane position='-5.5 -8.5 0.11' scale='1.3 1.3 1' src='textures/reset.png' transparent='true' altspace-cursor-collider='enabled: false'></a-plane>
+				<a-entity id='resetPopup' position='-5.5 -7 -1' rotation='20 0 0'>
+					<a-plane scale='3.25 1 1' rotation='0 0 0' color='black' opacity='.8' altspace-cursor-collider='enabled: false'></a-plane>
+					<a-entity position='0 0 .05' n-text='fontSize: 4; text: Reset Buzzers'></a-entity>
+				</a-entity>
+				
+
+				<a-cylinder id='helpB' position='-8 -5.75 0' rotation='90 0 0' scale='.5 .2 .5' color='#800' segments-height='1' n-mesh-collider></a-cylinder>
+				<a-entity position='-8 -5.75 .11' scale='.6 .6 1' n-text='text: <b>?'></a-entity>
+				<a-entity id='helpPopup' position='-8 -4.6 -1' rotation='20 0 0'>
+					<a-plane scale='1.8 1 1' rotation='0 0 0' color='black' opacity='.8' altspace-cursor-collider='enabled: false'></a-plane>
+					<a-entity position='0 0 .05' n-text='fontSize: 4; text: Help'></a-entity>
+				</a-entity>
+			</a-entity>
+
+			<a-entity id='hostControlPanel' position='0 1 0' rotation='-90 0 0' scale='.25 .25 .25'>
+				<a-box position='0 0 0' scale='0.6 0.34 .02' color='#080808'></a-box>
+				<a-box position='0 0 0' scale='0.54 0.4 .02' color='#080808'></a-box>
+				<a-cylinder position='.27 .17 0' rotation='90 0 0' height='.02' radius='.03' segments-height='1' color='#080808'></a-cylinder>
+				<a-cylinder position='.27 -.17 0' rotation='90 0 0' height='.02' radius='.03' segments-height='1' color='#080808'></a-cylinder>
+				<a-cylinder position='-.27 .17 0' rotation='90 0 0' height='.02' radius='.03' segments-height='1' color='#080808'></a-cylinder>
+				<a-cylinder position='-.27 -.17 0' rotation='90 0 0' height='.02' radius='.03' segments-height='1' color='#080808'></a-cylinder>
+
+				<a-entity position='0 -.05 0'>
+					<a-entity position='-.12 .22 .011' scale='.015 .015 .015' n-text='text: Podium Controls'></a-entity>
+
+					<a-box id='p5ControlPanelColor' position='-.125 .15 .01' scale='.3 .03 .001' altspace-cursor-collider='enabled: false'></a-box>
+					<a-box id='p4ControlPanelColor' position='-.125 .11 .01' scale='.3 .03 .001' altspace-cursor-collider='enabled: false'></a-box>
+					<a-box id='p3ControlPanelColor' position='-.125 .07 .01' scale='.3 .03 .001' altspace-cursor-collider='enabled: false'></a-box>
+					<a-box id='p2ControlPanelColor' position='-.125 .03 .01' scale='.3 .03 .001' altspace-cursor-collider='enabled: false'></a-box>
+					<a-box id='p1ControlPanelColor' position='-.125 -.01 .01' scale='.3 .03 .001' altspace-cursor-collider='enabled: false'></a-box>
+
+					<a-entity id='p5ControlPanel' position='-.15 .15 .011' scale='.025 .025 .025' n-text='fontSize: 5; horizontalAlign: left; width: 9; text: Player 1'></a-entity>
+					<a-entity id='p4ControlPanel' position='-.15 .11 .011' scale='.025 .025 .025' n-text='fontSize: 5; horizontalAlign: left; width: 9; text: Player 2'></a-entity>
+					<a-entity id='p3ControlPanel' position='-.15 .07 .011' scale='.025 .025 .025' n-text='fontSize: 5; horizontalAlign: left; width: 9; text: Player 3'></a-entity>
+					<a-entity id='p2ControlPanel' position='-.15 .03 .011' scale='.025 .025 .025' n-text='fontSize: 5; horizontalAlign: left; width: 9; text: Player 4'></a-entity>
+					<a-entity id='p1ControlPanel' position='-.15 -.01 .011' scale='.025 .025 .025' n-text='fontSize: 5; horizontalAlign: left; width: 9; text: Player 5'></a-entity>
+
+					<a-plane id='p5Kick' class='kickButton' position='0 .15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Kick' n-box-collider></a-plane>
+					<a-plane id='p4Kick' class='kickButton' position='0 .11 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-box-collider></a-plane>
+					<a-plane id='p3Kick' class='kickButton' position='0 .07 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-box-collider></a-plane>
+					<a-plane id='p2Kick' class='kickButton' position='0 .03 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-box-collider></a-plane>
+					<a-plane id='p1Kick' class='kickButton' position='0 -.01 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-box-collider></a-plane>
+
+					<a-plane id='p5Add' class='addButton' position='-.15 .15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Add' n-box-collider></a-plane>
+					<a-plane id='p4Add' class='addButton' position='-.15 .11 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-box-collider></a-plane>
+					<a-plane id='p3Add' class='addButton' position='-.15 .07 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-box-collider></a-plane>
+					<a-plane id='p2Add' class='addButton' position='-.15 .03 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-box-collider></a-plane>
+					<a-plane id='p1Add' class='addButton' position='-.15 -.01 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-box-collider></a-plane>
+
+					<a-plane id='p5Sub' class='subtractButton' position='-.1 .15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Sub' n-box-collider></a-plane>
+					<a-plane id='p4Sub' class='subtractButton' position='-.1 .11 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-box-collider></a-plane>
+					<a-plane id='p3Sub' class='subtractButton' position='-.1 .07 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-box-collider></a-plane>
+					<a-plane id='p2Sub' class='subtractButton' position='-.1 .03 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-box-collider></a-plane>
+					<a-plane id='p1Sub' class='subtractButton' position='-.1 -.01 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-box-collider></a-plane>
+
+					<a-plane id='p5Rename' class='renameButton' position='-.05 .15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='blue' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Rename' n-box-collider></a-plane>
+					<a-plane id='p4Rename' class='renameButton' position='-.05 .11 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='blue' n-box-collider></a-plane>
+					<a-plane id='p3Rename' class='renameButton' position='-.05 .07 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='blue' n-box-collider></a-plane>
+					<a-plane id='p2Rename' class='renameButton' position='-.05 .03 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='blue' n-box-collider></a-plane>
+					<a-plane id='p1Rename' class='renameButton' position='-.05 -.01 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='blue' n-box-collider></a-plane>
+				</a-entity>
+
+				<a-entity id='controlPanelClose' position='.27 .17 .011'>
+					<a-box rotation='0 0 45' scale='.005 .025 .01' color='red' n-box-collider></a-box>
+					<a-box rotation='0 0 -45' scale='.005 .025 .01' color='red' n-box-collider></a-box>
+				</a-entity>
+
+				<a-plane id='endGameB' position='-.15 -.15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-text='fontSize: 5; horizontalAlign: left; width: 9; text: End Game' n-box-collider></a-plane>
+				<a-plane id='clearPlayersB' position='0 -.15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-text='fontSize: 5; horizontalAlign: left; width: 9; text: Clear Podiums' n-box-collider></a-plane>
+
+				<a-entity id='confirmDialog' position='0 0 0' scale='.5 .5 .5'>
+					<a-box position='0 0 -.02' scale='1.2 .8 .03' material='visible: false' n-box-collider></a-box>
+
+					<a-plane position='0 0 0' scale='0.4 0.24 1' color='#111'></a-plane>
+					<a-plane position='0 0 0' scale='0.34 0.3 1' color='#111'></a-plane>
+					<a-circle position='.17 .12 0' radius='.03' color='#111'></a-circle>
+					<a-circle position='.17 -.12 0' radius='.03' color='#111'></a-circle>
+					<a-circle position='-.17 .12 0' radius='.03' color='#111'></a-circle>
+					<a-circle position='-.17 -.12 0' radius='.03' color='#111'></a-circle>
+					
+					<a-entity id='confirmText' position='0 .05 .01' scale='.5 .5 .5' n-text='fontSize: 1; text: End Game?'></a-entity>
+					<a-plane id='confirmYes' position='.095 -.05 .01' scale='.05 .05 .01' src='textures/button.png' transparent='true' color='#0c0' n-text='fontSize: 5; horizontalAlign: left; width: 3.2; text: Yes' n-box-collider></a-plane>
+					<a-plane id='confirmNo' position='-.06 -.05 .01' scale='.05 .05 .01' src='textures/button.png' transparent='true' color='red' n-text='fontSize: 5; horizontalAlign: left; width: 3; text: No' n-box-collider></a-plane>
+				</a-entity>	
+
+				<a-entity id='hostText' position='.15 .16 .011' scale='.015 .015 1' n-text='text: Current Host:\nNot Joined'></a-entity>
+				<a-plane id='hostB' position='.19 .12 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-text='fontSize: 5; horizontalAlign: left; width: 5; text: Leave' n-box-collider></a-plane>
+
+				<a-entity position='.16 .03 .011' scale='1.5 1.5 1'>
+					<a-entity position='0 .03 0' scale='.01 .01 .01' n-text='text: End Game Timer'></a-entity>
+					<a-entity id='timeText' scale='.02 .02 .02' n-text='text: 00:00'></a-entity>
+					<a-cylinder id='timerHourUp' position='-.04 .01 0' rotation='-90 0 0' scale='.01 .001 .008' color='green' segments-radial='3' segments-height='1' n-box-collider></a-cylinder>
+					<a-cylinder id='timerHourDown' position='-.04 -.01 0' rotation='90 0 0' scale='.01 .001 .008' color='red' segments-radial='3' segments-height='1' n-box-collider></a-cylinder>
+					<a-cylinder id='timerMinuteUp' position='.04 .01 0' rotation='-90 0 0' scale='.01 .001 .008' color='green' segments-radial='3' segments-height='1' n-box-collider></a-cylinder>
+					<a-cylinder id='timerMinuteDown' position='.04 -.01 0' rotation='90 0 0' scale='.01 .001 .008' color='red' segments-radial='3' segments-height='1' n-box-collider></a-cylinder>
+					<a-plane id='timerEnableButton' position='-.01 -.03 0' scale='.01 .01 .01' src='textures/button.png' transparent='true' color='#800' n-text='horizontalAlign: left; width: 6.5; fontSize: 6; text: Enabled' n-box-collider></a-plane>
+					<a-plane id='timerResetButton' position='.03 -.03 0' scale='.01 .01 .01' src='textures/button.png' transparent='true' color='red' n-text='horizontalAlign: left; width: 5.2; fontSize: 6; text: Reset' n-box-collider></a-plane>
+				</a-entity>
+
+				<a-entity position='.15 -.06 .011' scale='1 1 1'>
+					<a-entity position='0 0 0' scale='.015 .015 .015' n-text='text: Settings'></a-entity>
+					<a-plane id='manJoinB' position='.05 -.035 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 7.1; text: Manual Join' n-box-collider></a-plane>
+					<a-plane id='hostManJoinB' position='.05 -.07 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 9; text: Host Manual Join' n-box-collider></a-plane>
+					<a-plane id='endKickB' position='.05 -.105 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 8.2; text: Game End Kick' n-box-collider></a-plane>
+				</a-entity>
+			</a-entity>
+
+			<a-entity position='0 .9 -.2' rotation='-10 0 0'>
+				<a-entity id='hostPregamePanel' position='0 .25 0' scale='.7 .7 1'>
+					<a-box position='0 0 0' scale='0.6 0.34 .02' color='black'></a-box>
+					<a-box position='0 0 0' scale='0.54 0.4 .02' color='black'></a-box>
+					<a-cylinder position='.27 .17 0' rotation='90 0 0' height='.02' radius='.03' segments-height='1' color='black'></a-cylinder>
+					<a-cylinder position='.27 -.17 0' rotation='90 0 0' height='.02' radius='.03' segments-height='1' color='black'></a-cylinder>
+					<a-cylinder position='-.27 .17 0' rotation='90 0 0' height='.02' radius='.03' segments-height='1' color='black'></a-cylinder>
+					<a-cylinder position='-.27 -.17 0' rotation='90 0 0' height='.02' radius='.03' segments-height='1' color='black'></a-cylinder>
+
+					<a-entity id='preRemain' position='0.215 0.16 .012' scale='.3 .3 .3' n-text='width: 1; fontSize: 1; horizontalAlign: left; text:Remaining: 0'></a-entity>
+
+					<a-entity position='0 0.12 .012' scale='.3 .3 .3' n-text='width: 1.8; fontSize: 1; horizontalAlign: left; text:<size=75%>Player				Answered 		Time'></a-entity>
+					<a-entity id='preLeaders' position='.29 -.045 .012' scale='.3 .3 .3' n-text='width: 3.8; fontSize: 1; horizontalAlign: left; text:1:\n2:\n3:\n4:\n5:\n6:\n7:\n8:'></a-entity>
+					<a-entity id='preLeaderScores' position='.68 -.045 .012' scale='.3 .3 .3' n-text='width: 3.8; fontSize: 1; horizontalAlign: left; text:1:\n2:\n3:\n4:\n5:\n6:\n7:\n8:'></a-entity>
+				</a-entity>
+			</a-entity>
+			<a-sphere id='h1Join' position='0 -.5 0' radius='.2' color='#333' n-billboard n-text='fontSize: 1; verticalAlign: top; height: 0.8; text: Click to Host' n-sphere-collider='radius: 0.2; type: hologram'></a-sphere>
+		</a-entity>
+
+		<a-entity id='podiums' position='-1.6 .06 1' rotation='0 45 0'>
+			<a-entity id='podium1' position='-1.6 0 0'>
+				<a-entity position='0 1 .235' rotation='8 0 0'>
+					<a-entity id='p1Name' position='0 .23 .005' scale='.2 .2 .2' n-text='fontSize: 1; text: <color=black>Player 1'></a-entity>
+					<a-entity id='p1Score' position='0 0 .005' scale='.9 .9 .9' n-text='fontSize: 3; text: <color=black>1'></a-entity>
+				</a-entity>
+				<a-sphere id='p1Join' class='joinButton' position='0 -.5 0' radius='.2' color='#a00' n-billboard n-text='fontSize: 1; verticalAlign: top; height: 0.8; text: Click to Play' n-sphere-collider='radius: 0.2; type: hologram'></a-sphere>
+			</a-entity>
+
+			<a-entity id='podium2' position='-.8 0 0'>
+				<a-entity position='0 1 .235' rotation='8 0 0'>
+					<a-entity id='p2Name' position='0 .23 .005' scale='.2 .2 .2' n-text='fontSize: 1; text: <color=black>Player 2'></a-entity>
+					<a-entity id='p2Score' position='0 0 .005' scale='.9 .9 .9' n-text='fontSize: 3; text: <color=black>2'></a-entity>
+				</a-entity>
+				<a-sphere id='p2Join' class='joinButton' position='0 -.5 0' radius='.2' color='#a00' n-billboard n-text='fontSize: 1; verticalAlign: top; height: 0.8; text: Click to Play' n-sphere-collider='radius: 0.2; type: hologram'></a-sphere>
+			</a-entity>
+
+			<a-entity id='podium3' position='0 0 0'>
+				<a-entity position='0 1 .235' rotation='8 0 0'>
+					<a-entity id='p3Name' position='0 .23 .005' scale='.2 .2 .2' n-text='fontSize: 1; text: <color=black>Player 3'></a-entity>
+					<a-entity id='p3Score' position='0 0 .005' scale='.9 .9 .9' n-text='fontSize: 3; text: <color=black>3'></a-entity>
+				</a-entity>
+				<a-sphere id='p3Join' class='joinButton' position='0 -.5 0' radius='.2' color='#a00' n-billboard n-text='fontSize: 1; verticalAlign: top; height: 0.8; text: Click to Play' n-sphere-collider='radius: 0.2; type: hologram'></a-sphere>
+			</a-entity>
+
+			<a-entity id='podium4' position='.8 0 0'>
+				<a-entity position='0 1 .235' rotation='8 0 0'>
+					<a-entity id='p4Name' position='0 .23 .005' scale='.2 .2 .2' n-text='fontSize: 1; text: <color=black>Player 4'></a-entity>
+					<a-entity id='p4Score' position='0 0 .005' scale='.9 .9 .9' n-text='fontSize: 3; text: <color=black>4'></a-entity>
+				</a-entity>
+				<a-sphere id='p4Join' class='joinButton' position='0 -.5 0' radius='.2' color='#a00' n-billboard n-text='fontSize: 1; verticalAlign: top; height: 0.8; text: Click to Play' n-sphere-collider='radius: 0.2; type: hologram'></a-sphere>
+			</a-entity>
+
+			<a-entity id='podium5' position='1.6 0 0'>
+				<a-entity position='0 1 .235' rotation='8 0 0'>
+					<a-entity id='p5Name' position='0 .23 .005' scale='.2 .2 .2' n-text='fontSize: 1; text: <color=black>Player 5'></a-entity>
+					<a-entity id='p5Score' position='0 0 .005' scale='.9 .9 .9' n-text='fontSize: 3; text: <color=black>5'></a-entity>
+				</a-entity>
+				<a-sphere id='p5Join' class='joinButton' position='0 -.5 0' radius='.2' color='#a00' n-billboard n-text='fontSize: 1; verticalAlign: top; height: 0.8; text: Click to Play' n-sphere-collider='radius: 0.2; type: hologram'></a-sphere>
+			</a-entity>
+
+			<a-box id='contestantContainer1' position='-2 1 -1' scale='2 2 2' material='visible: false' opacity='.01' altspace-cursor-collider='enabled: false'></a-box>
+			<a-box id='contestantContainer2' position='0 1 -1' scale='2 2 2' material='visible: false' opacity='.01' altspace-cursor-collider='enabled: false'></a-box>
+			<a-box id='contestantContainer3' position='2 1 -1' scale='2 2 2' material='visible: false' opacity='.01' altspace-cursor-collider='enabled: false'></a-box>
+		</a-entity>
+
+		<a-entity id='buzzIn' sync sync-n-sound></a-entity>
+		<a-entity id='correct' sync sync-n-sound></a-entity>
+		<a-entity id='incorrect' sync sync-n-sound></a-entity>
+		<a-entity id='click'></a-entity>
+		<a-entity id='timeEnd' sync sync-n-sound></a-entity>
+
+		<a-box id='trapdoorBox' position='0 -10 0' scale='25 1 25' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+		<a-entity id='audienceTarget' position='0 2 6.5' rotation='0 180 0'></a-entity>
+		<a-entity id='trapdoorPortal' position='0 -100 0' n-portal='targetEntity: #audienceTarget' n-skeleton-parent='part: head'></a-entity>
+
+		<a-mixin id='winnerCrown' position='0 .1 .015' scale='.11 .11 .11' rotation='0 180 0' obj-model='obj: models/crown.obj; mtl: models/crown.mtl' collapse-model></a-mixin>
+
+		<a-mixin id='s-series-m01' position='0 .1 .015' scale='.11 .11 .11'></a-mixin>
+		<a-mixin id='s-series-f01' position='0 .1 .03' scale='.11 .11 .11'></a-mixin>
+		<a-mixin id='a-series-m01' position='0 .07 .01' scale='.1 .1 .1'></a-mixin>
+		<a-mixin id='x-series-m02' position='0 .11 .05' scale='.1 .1 .1'></a-mixin>
+		<a-mixin id='pod-classic' position='0 .1 .04' scale='.14 .14 .14'></a-mixin>
+		<a-mixin id='robothead-propellerhead-01' position='0 .1 .08' scale='.12 .12 .12'></a-mixin>
+		<a-mixin id='robothead-roundguy-01' position='0 .17 .025' scale='.17 .17 .17'></a-mixin>
+		<a-mixin id='rubenoid' position='0 .11 .04' scale='.14 .14 .14'></a-mixin>
+		
+		<a-mixin id='sync' n-skeleton-parent='part: head' sync sync-n-skeleton-parent></a-mixin>
+	</a-scene>
+<script>
+	var scene = document.querySelector('a-scene');
+	scene.addEventListener('connected', function() {
+	var sync = scene.systems['sync-system'].connection;
+
+	buzzIn.setAttribute('n-sound', {src: 'sounds/ding'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+	correct.setAttribute('n-sound', {src: 'sounds/win'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+	incorrect.setAttribute('n-sound', {src: 'sounds/fail'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+	click.setAttribute('n-sound', {src: 'sounds/click' + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+	timeEnd.setAttribute('n-sound', {src: 'sounds/timeEnd' + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.6, spatialBlend: 0.5});
+
+	var isActivity = false;
+	if (findGetParameter('mode') == 'activity') {
+		isActivity = true;
+	}
+
+	var scores = [];
+	var categories = [{id:9,name:'General Knowledge'},{id:10,name:'Books'},{id:11,name:'Film'},{id:12,name:'Music'},{id:13,name:'Musicals & Theatres'},{id:14,name:'Television'},{id:15,name:'Video Games'},{id:16,name:'Board Games'},{id:17,name:'Science & Nature'},{id:18,name:'Computers'},{id:19,name:'Mathematics'},{id:20,name:'Mythology'},{id:21,name:'Sports'},{id:22,name:'Geography'},{id:23,name:'History'},{id:24,name:'Politics'},{id:25,name:'Art'},{id:26,name:'Celebrities'},{id:27,name:'Animals'},{id:28,name:'Vehicles'},{id:29,name:'Comics'},{id:30,name:'Gadgets'},{id:31,name:'Japanese Anime & Manga'},{id:32,name:'Cartoon & Animations'}];
+	var podiumList = [];
+
+	altspace.getUser().then(function(user){
+		var loader = new THREE.OBJLoader();
+		loader.load('models/podiumTall.obj', podiumLoad, undefined, undefined);
+		loader.load('models/hostPodium2.obj', hostPodiumLoad, undefined, undefined);
+		loader.load('models/stage2.obj', stageLoad, undefined, undefined);
+		loader.load('models/screen.obj', screenLoad, undefined, undefined);
+		loader.load('models/button.obj', buttonLoad, undefined, undefined);
+		loader.load('models/wall.obj', wallLoad, undefined, undefined);
+
+		var modelsLoaded = 0;
+		
+		function buttonLoad(obj) {
+			obj.scale.setScalar(2);
+			obj.position.set(0,0,0);
+			obj.getObjectByName('inner').material.color = new THREE.Color(0,0,0);
+			
+			var buttons = [aBScreen,bBScreen,cBScreen,dBScreen,aB,bB,cB,dB];
+			for (var i = 0; i < buttons.length; i++) {
+				var b = obj.clone();
+				b.getObjectByName('outer').material = b.getObjectByName('outer').material.clone();
+
+				buttons[i].setObject3D('mesh', b);
+				buttons[i].emit('model-loaded', {format: 'obj', model: b});
+			}
+			modelsLoaded++;
+			modelCheck();
+		}
+
+		function screenLoad(obj) {
+			obj.scale.setScalar(2);
+			obj.position.set(0,0,-.1)
+
+			obj.getObjectByName('screen').userData.altspace = {collider: {enabled: false}};
+			obj.getObjectByName('border').userData.altspace = {collider: {enabled: false}};
+			obj.getObjectByName('edge').userData.altspace = {collider: {enabled: false}};
+
+			var edge = new THREE.Color(.2,.2,.2);
+
+			obj.getObjectByName('screen').material.color = new THREE.Color(0,0,0);
+			obj.getObjectByName('border').material.color = new THREE.Color(0,0,0);
+			obj.getObjectByName('border').material.map = new THREE.TextureLoader().load('models/timer.png');
+			obj.getObjectByName('edge').material = new THREE.MeshBasicMaterial({color: edge, map: new THREE.TextureLoader().load('models/screen.png')});
+
+			bigScreen.object3D.add(obj);
+			modelsLoaded++;
+			modelCheck();
+		}
+
+		function stageLoad(obj) {			
+			// obj.scale.set(1.5183,1,1);
+
+			var stage = new THREE.Color(.15,0,.3);
+
+			obj.getObjectByName('stage').material = new THREE.MeshBasicMaterial({color: stage, map: new THREE.TextureLoader().load('models/stage3.png')});
+			obj.getObjectByName('stage').userData.altspace = {collider: {enabled: false}};
+
+			scene.object3D.add(obj);
+			modelsLoaded++;
+			modelCheck();
+		}
+
+		function wallLoad(obj) {			
+			obj.scale.setScalar(1);
+			var stage = new THREE.Color(.1,0,.2);
+
+			obj.getObjectByName('wall').material = new THREE.MeshBasicMaterial({color: stage, map: new THREE.TextureLoader().load('models/wall.png')});
+			obj.getObjectByName('wall').userData.altspace = {collider: {enabled: false}};
+
+			wall.setObject3D('mesh', obj);
+			wall.emit('model-loaded', {format: 'obj', model: obj});
+
+			modelsLoaded++;
+			modelCheck();
+		}
+
+		function hostPodiumLoad(obj) {
+			obj.rotation.y = Math.PI/2;
+			obj.scale.setScalar(.5);
+			obj.position.y = 0.1;
+
+
+			var blue = new THREE.Color(0.13,0.13,0.13);
+			//var blue = new THREE.Color(.2,0,.1);
+
+			obj.getObjectByName('base').material = new THREE.MeshBasicMaterial({color: blue, map: new THREE.TextureLoader().load('models/hostBase2.png')});
+			obj.getObjectByName('screen').material = new THREE.MeshBasicMaterial({color: 0x000000});
+			obj.getObjectByName('border').material = new THREE.MeshBasicMaterial({color: 0x000000});
+			obj.getObjectByName('stripes').material = new THREE.MeshBasicMaterial({color: 0x000000});
+
+			// obj.getObjectByName('screen').userData.altspace = {collider: {enabled: false}};
+			obj.getObjectByName('border').userData.altspace = {collider: {enabled: false}};
+			// obj.getObjectByName('base').userData.altspace = {collider: {enabled: false}};
+
+			obj.getObjectByName('screen').userData.altspace = {collider: {enabled: false}};
+
+			hostPodium.object3D.add(obj);
+			modelsLoaded++;
+			modelCheck();
+		}
+
+		var black = new THREE.Color(0,0,0);
+		var red = new THREE.Color(0.6,0,0);
+		var orange = new THREE.Color(0.7,0.3,0);
+		var yellow = new THREE.Color(0.6,0.6,0);
+		var green = new THREE.Color(0,0.5,0);
+		var blue = new THREE.Color(0,0.2,0.5);
+		var podiumColors = [black,red,orange,yellow,green,blue];
+
+		function podiumLoad(obj) {
+			obj.rotation.y = -Math.PI/2;
+			obj.scale.setScalar(.5);
+			obj.position.y = 0.1;
+
+			var blue = new THREE.Color(0,.2,.5);
+			var red = new THREE.Color(1,0,0);
+			
+
+			var darkBlue = new THREE.Color(0,.12,.3);
+			obj.getObjectByName('stripes').material.color.set(darkBlue);
+			obj.getObjectByName('panels').material.color.set(darkBlue);
+
+			for (var i = 1; i < 6; i++) {
+				var p = obj.clone();
+
+				p.getObjectByName('base').material = new THREE.MeshBasicMaterial({color: podiumColors[i], map: new THREE.TextureLoader().load('models/podium' + i + '2.png')});
+				p.getObjectByName('button').material = new THREE.MeshBasicMaterial({color: red, map: new THREE.TextureLoader().load('models/podium' + i + '2.png')});
+
+				p.getObjectByName('stripes').material = new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('models/light.png')});
+				p.getObjectByName('panels').material = new THREE.MeshBasicMaterial({color: grey});
+
+				document.querySelector('#podium' + i).object3D.add(p);
+				podiumList.push(p);
+
+				document.querySelector('#p' + (i) + 'Join').setAttribute('color', '#' + podiumColors[i].getHexString());
+				document.querySelector('#p' + (i) + 'ControlPanelColor').setAttribute('color', '#' + podiumColors[i].getHexString());
+
+			}
+			modelsLoaded++;
+			modelCheck();
+		}
+
+		function modelCheck() {
+			if (modelsLoaded == 6) {
+				start();
+			}
+		}
+
+		var white = new THREE.Color(1,1,1);
+		var grey = new THREE.Color(.6,.6,.6);
+
+		function start() {
+			function setPanelLight(p,on) {
+				var panel = podiumList[p].getObjectByName('panels').material;
+				if (on) {
+					panel.color.set(white);
+				} else {
+					panel.color.set(grey);
+				}
+			}
+
+
+  		var isMod = user.isModerator;
+  		var isHost = false;
+
+  		var hasHost = false;
+			var hostUser;
+  		sync.instance.child('host').on('value', function(data){
+				if (data.val() != null) {
+					hasHost = true;
+					hostUser = data.val();
+					hostText.setAttribute('n-text', 'text', 'Current Host:\n' + hostUser.displayName);
+					hostB.setAttribute('n-text', 'text', 'Leave');
+					hostB.setAttribute('color', 'red');
+					h1Join.setAttribute('position', '0 -.5 0');
+					if(data.val().userId == user.userId) {
+						isHost = true;
+						console.log('You are host!');
+						colliders.setAttribute('n-mesh-collider', 'type: environment; convex: false');
+						altspace.getSpace().then(function(space){
+							sync.instance.child('host').child('space').set(space.sid);
+						});
+						if (isActivity) {
+							sync.instance.child('host').onDisconnect().set(null);
+						}
+					} else {
+						isHost = false;
+					}
+				} else {
+					if (isHost) {
+						hostPanelState = false;
+						controlPanelMove();
+						if (isActivity) {
+							sync.instance.child('host').onDisconnect().cancel();
+						}
+					}
+					hasHost = false;
+					isHost = false;
+					hostUser = null;
+					hostText.setAttribute('n-text', 'text', 'Current Host:\nNot Joined');
+					hostB.setAttribute('n-text', 'text', 'Join');
+					hostB.setAttribute('color', 'green');
+					if (settings.manualJoinHost) {
+						h1Join.setAttribute('position', '0 2 0');
+					}
+					if (joined == 0) {
+						colliders.removeAttribute('n-mesh-collider');
+					}
+				}
+			});
+
+			var players = [{joined: false},{joined: false},{joined: false},{joined: false},{joined: false}];
+
+			var settings = {};
+			sync.instance.child('settings').on('value', function(data){
+				if(data.val() != null) {
+					settings = data.val();
+					if (settings.manualJoin) {
+						for (var i = 0; i < 5; i++) {
+							if (!players[i].joined && joined == 0) {
+								document.querySelector('#p' + (i + 1) + 'Join').setAttribute('position', '0 2 0');
+							}
+						}
+						manJoinB.setAttribute('src', 'textures/true.png');
+					} else {
+						for (var i = 0; i < 5; i++) {
+							document.querySelector('#p' + (i + 1) + 'Join').setAttribute('position', '0 -.5 0');
+						}
+						manJoinB.setAttribute('src', 'textures/false.png');
+					}
+
+					if (settings.manualJoinHost) {
+						hostManJoinB.setAttribute('src', 'textures/true.png');
+						if (!hasHost) {
+							h1Join.setAttribute('position', '0 2 0');
+						}
+					} else {
+						hostManJoinB.setAttribute('src', 'textures/false.png');
+						h1Join.setAttribute('position', '0 -.5 0');
+					}
+
+					if (settings.endGameKick) {
+						endKickB.setAttribute('src', 'textures/true.png');
+					} else {
+						endKickB.setAttribute('src', 'textures/false.png');
+					}
+
+					if (isActivity) {
+						//gray out buttons
+					}
+				} else {
+					sync.instance.child('settings').set({manualJoin: (isActivity ? true : false), endGameKick: false, manualJoinHost: (isActivity ? true : false)});
+				}
+			});
+			
+			var checkedSpace = false;
+			sync.instance.child('players').on('value', function(data){
+				if (data.val() != null) {
+					//console.log(data.val());
+					players = data.val();
+					joined = 0;
+					scores = [];
+					for (var i = 0; i < 5; i++) {
+						if (players[i].joined) {
+							scores.push({name: players[i].displayName, score: players[i].score});
+
+							var size = 4;
+
+							if (data.val()[i].displayName.length > 14) {
+								size = 2;
+							} else if (data.val()[i].displayName.length > 9) {
+								size = 3;
+							}
+
+							document.querySelector('#p' + (i + 1) + 'Name').setAttribute('n-text', 'fontSize', size);
+							document.querySelector('#p' + (i + 1) + 'Name').setAttribute('n-text', 'text', '<color=black><b>' + data.val()[i].displayName);
+							document.querySelector('#p' + (i + 1) + 'Score').setAttribute('n-text', 'text', (data.val()[i].score < 0 ? '<color=#600>' : '<color=black>') + data.val()[i].score);
+							document.querySelector('#p' + (i + 1) + 'Join').setAttribute('position', '0 -.5 0');
+							document.querySelector('#p' + (i + 1) + 'ControlPanel').setAttribute('n-text', 'text', '<color=white>' + data.val()[i].displayName);
+							if (!playerBuzzedIn) {
+								setPanelLight(i, true);
+							}
+						} else {
+							document.querySelector('#p' + (i + 1) + 'Name').setAttribute('n-text', 'text', '');
+							document.querySelector('#p' + (i + 1) + 'Score').setAttribute('n-text', 'text', '');
+							document.querySelector('#p' + (i + 1) + 'ControlPanel').setAttribute('n-text', 'text', '<color=#888>Not joined');
+							if (settings.manualJoin) {
+								document.querySelector('#p' + (i + 1) + 'Join').setAttribute('position', '0 2 0');
+							}
+							setPanelLight(i, false);
+						}
+						if (players[i].id == user.userId) {
+							joined = i + 1;
+							if (!checkedSpace) {
+								if (hasHost) {
+									altspace.getSpace().then(function(space){
+										if (space.sid != hostUser.space) {
+											console.log('not in same space as host');
+											var portal = document.createElement('a-entity');
+											portal.setAttribute('n-portal', 'targetSpace', hostUser.space);
+											portal.setAttribute('n-text', {fontSize: 2, verticalAlign: 'top', height: 5.7, text: 'Enter to join\nthe other players'});
+											portal.setAttribute('position', '0 0 1.5');
+											scene.appendChild(portal);
+										} else {
+											console.log('in same space as host');
+										}
+										checkedSpace = true;
+									});
+								}
+							}
+						}
+					}
+					if (joined != 0) {
+						colliders.setAttribute('n-mesh-collider', 'type: environment; convex: false');
+						for (var i = 1; i < 6; i++) {
+							document.querySelector('#p' + i + 'Join').setAttribute('position', '0 -.5 0');
+						}
+					} else if (!isHost) {
+						colliders.removeAttribute('n-mesh-collider');
+					}
+				} else {
+					sync.instance.child('players').set([{joined: false},{joined: false},{joined: false},{joined: false},{joined: false}]);
+				}
+			});
+
+			var podiumLightState = ['off','off','off','off','off'];
+
+			function setColor(p,to) {
+				var dur = 500;
+				var stripes = podiumList[p].getObjectByName('stripes').material;
+				switch (to) {
+					case 'off':
+						if (podiumLightState[p] == 'buzzed') {
+							new TWEEN.Tween(stripes.map.offset).to({y: 0}, dur).start();
+						} else if (podiumLightState[p] == 'correct') {
+							stripes.map.offset.set(.6,-.5);
+							new TWEEN.Tween(stripes.map.offset).to({y: 0}, dur).start();
+						} else if (podiumLightState[p] == 'wrong') {
+							stripes.map.offset.set(.8,-.5);
+							new TWEEN.Tween(stripes.map.offset).to({y: 0}, dur).start();
+						} else {
+							stripes.map.offset.set(0,0);
+						}
+						break;
+					case 'buzzed':
+						if (podiumLightState[p] == 'off') {
+							stripes.map.offset.set(0,0);
+							new TWEEN.Tween(stripes.map.offset).to({y: -.5}, dur).start();
+						} else {
+							stripes.map.offset.set(0,-.5);
+						}
+						break;
+					case 'correct':
+						if (podiumLightState[p] == 'buzzed') {
+							stripes.map.offset.set(.2,0);
+							new TWEEN.Tween(stripes.map.offset).to({y: -.5}, dur).start();
+						} else {
+							stripes.map.offset.set(.2,-.5);
+						}
+						break;
+					case 'wrong':
+						if (podiumLightState[p] == 'buzzed') {
+							stripes.map.offset.set(.4,0);
+							new TWEEN.Tween(stripes.map.offset).to({y: -.5}, dur).start();
+						} else {
+							stripes.map.offset.set(.4,-.5);
+						}
+						break;
+					case 'winner':
+						stripes.map.offset.set(0,0);
+						new TWEEN.Tween(stripes.map.offset).to({x: .8, y: -.5}, dur * 10).start();
+						break;
+				}
+				podiumLightState[p] = to;
+			}
+
+			var done = false;
+			var playerBuzzedIn;
+			sync.instance.child('buzz').on('value', function(data){
+	      if (data.val() == null) {
+	        for (var i = 0; i < 5; i++) {
+	        	setColor(i, 'off');
+		        if (players[i].joined) {
+		        	setPanelLight(i, true);
+		        } else {
+			        setPanelLight(i, false);
+			      }
+						sync.instance.child('selectedAnswer').set(null);
+						setTimeout(function(){
+							updateButtonText();
+						},1);
+	        }
+	        done = false;
+	        playerBuzzedIn = null;
+					if (mode == 'question') {
+						setBorderColor(0);
+					}
+	      } else {
+	        	var p = data.val()[Object.keys(data.val())[0]];
+	        	for (var i = 0; i < 5; i++) {
+	        		if (i != p - 1) {
+		        		setColor(i, 'off');
+		        	}
+			        setPanelLight(i, false);
+		        }
+		        setColor(p - 1, 'buzzed');
+		        setPanelLight(p - 1, true);
+
+	        //if (!done) {
+	          //sound.components['n-sound'].playSound();
+	          //done = true;
+	          playerBuzzedIn = p;
+
+	          setBorderColor(p);
+	        //}
+	      }
+	    });
+
+			function setBorderColor(color) {
+				//console.log('set border: ', color)
+				bigScreen.object3D.getObjectByName('border').material.map.offset.x = 0;
+				bigScreen.object3D.getObjectByName('border').material.color.set(podiumColors[color]);
+				hostPodium.object3D.getObjectByName('border').material.color.set(podiumColors[color]);
+				hostPodium.object3D.getObjectByName('stripes').material.color.set(podiumColors[color]);
+			}
+
+			var pregameScores = [];
+			var responseTimes = [];
+			var pregameScore = 0;
+
+			var preUser = sync.instance.child('pregame').child('players').child(user.displayName + user.userId);
+
+			sync.instance.child('pregame').child('players').on('child_added', function(data){
+				pregameScores.push(data.val());
+				sortScores();
+			});
+
+			sync.instance.child('pregame').child('players').on('child_changed', function(data){
+				pregameScores.forEach(function(s,i){
+					if (s.userId == data.val().userId) {
+						pregameScores[i] = data.val();
+						sortScores();
+					}
+				});
+			});
+
+			sync.instance.child('pregame').child('players').on('value', function(data){
+				if (data.val() == null) {
+					pregameScores = [];
+					pregameScore = 0;
+					responseTimes = [];
+					sortScores();
+				}
+			});
+			
+			var pregameTimerEnded = false;
+			sync.instance.child('pregame').child('timerEnded').on('value', function(data){
+				if (data.val() != null) {
+					pregameTimerEnded = data.val();
+				} else {
+					sync.instance.child('pregame').child('timerEnded').set(false);
+				}
+			});
+			
+			var pregamePanelPos = [{pos: {x:0,y:.65,z:0}, scale: {x:1,y:1,z:1}}, {pos: {x:0,y:.25,z:0}, scale: {x:.7,y:.7,z:1}}];
+			var mode;
+			sync.instance.child('mode').on('value', function(data){
+				if (data.val() != null) {
+					mode = data.val();
+					if (mode == 'pregame') {
+						new TWEEN.Tween(hostPregamePanel.object3D.position).to(pregamePanelPos[0].pos, 500).start();
+						new TWEEN.Tween(hostPregamePanel.object3D.scale).to(pregamePanelPos[0].scale, 500).start();
+					} else {
+						new TWEEN.Tween(hostPregamePanel.object3D.position).to(pregamePanelPos[1].pos, 500).start();
+						new TWEEN.Tween(hostPregamePanel.object3D.scale).to(pregamePanelPos[1].scale, 500).start();
+
+						pregameTimeCount.setAttribute('n-text', 'text', '');
+						pregameTimeCount2.setAttribute('n-text', 'text', '');
+					}
+				} else {
+					sync.instance.child('mode').set('category');
+				}
+			});
+			
+			var hasCrown = false;
+
+	    var screenState;
+	    sync.instance.child('screenState').on('value', function(data){
+				if (data.val() != null) {
+					screenState = data.val();
+
+					titleScreen.setAttribute('position', '0 0 -.2');
+					gameScreen.setAttribute('position', '0 0 -.2');
+					endScreen.setAttribute('position', '0 0 -.2');
+
+					titleScreen2.setAttribute('position', '0 0 -.2');
+					gameScreen2.setAttribute('position', '0 0 -.2');
+					endScreen2.setAttribute('position', '0 0 -.2');
+
+					if (screenState == 1) {
+						titleScreen.setAttribute('position', '0 0 0');
+						titleScreen2.setAttribute('position', '0 0 0');
+						setBorderColor(0);
+					} else if (screenState == 2) {
+						gameScreen.setAttribute('position', '0 0 0');
+						gameScreen2.setAttribute('position', '0 0 0');
+					} else {
+						if (mode == 'pregame') {
+							console.log(pregameScores);
+							
+							var str = '<size=60%>Top 5<size=25%>\n\n<align="right">Answered          Time        <color=black>.\n<size=45%><align="left"><color=#' + podiumColors[5].getHexString() + '>1:<color="white"> ';
+							var str2 = '<size=45%>';
+							for (var i = 0; i < 5; i++) {
+								if (pregameScores[i]) {
+									str += pregameScores[i].displayName;
+									str2 += Math.floor(pregameScores[i].score) + '	' + (10 - Math.floor(((pregameScores[i].score - Math.floor(pregameScores[i].score)) * 10) * 100) / 100).toString().slice(0,4) + 's';
+								} else {
+									str2 += '<color=black>.';
+								}
+								if (i < 4) {
+									str += '\n<color=#' + podiumColors[5 - (i+1)].getHexString() + '>' + (i + 2) + ':<color="white"> ';
+									str2 += '\n';
+								}
+							}
+							
+							endGameText.setAttribute('n-text', 'text', str);
+							endGameScoreText.setAttribute('n-text', 'text', str2);
+
+							endGameText2.setAttribute('n-text', 'text', str);
+							endGameScoreText2.setAttribute('n-text', 'text', str2);
+						} else if (mode == 'scores') {
+							sortByKey(scores, 'score');
+							scores.reverse();
+							
+							checkJointScores(scores);
+
+							var str = '<size=60%>Scores:<size=25%>\n\n\n<size=45%><align=left>';
+							var str2 = '<size=45%>';
+
+							for (var i = 0; i < 5; i++) {
+								str += (scores[i] ? scores[i].pos + ' ' + scores[i].name : '') + '\n';
+								str2 += '	' + (scores[i] ? scores[i].score : '<color=black>.') + '\n';
+							}
+
+							endGameText.setAttribute('n-text', 'text', str);
+							endGameText2.setAttribute('n-text', 'text', str);
+
+							endGameScoreText.setAttribute('n-text', 'text', str2);
+							endGameScoreText2.setAttribute('n-text', 'text', str2);
+
+						} else if (mode == 'winner') {
+							var winner;
+							for (var i = 0; i < 5; i++) {
+								if (players[i].joined) {
+									if (winner == null || players[i].score > winner.score) {
+										winner = players[i];
+										setBorderColor(i + 1);
+									}
+								}
+							}
+							
+
+							endGameText.setAttribute('n-text', 'text', 'Winner:\n' + winner.displayName);
+							endGameText2.setAttribute('n-text', 'text', 'Winner:\n' + winner.displayName);
+
+							endGameScoreText.setAttribute('n-text', 'text', '');
+							endGameScoreText2.setAttribute('n-text', 'text', '');
+							
+							console.log('Winner', winner);
+
+							if (winner.id == user.userId && !hasCrown) {
+								var avatar = user.avatarInfo.sid;
+								var avatars = ['s-series-m01','s-series-f01','a-series-m01','x-series-m02','pod-classic','robothead-propellerhead-01','robothead-roundguy-01'];
+								if (avatars.indexOf(avatar) == -1) {
+									avatar = 'rubenoid';
+								}
+								scene.systems['sync-system'].instantiate('winnerCrown ' + avatar + ' sync', scene);
+								hasCrown = true;
+							} else if (winner.id != user.userId && joined != 0 && settings.endGameKick) {
+								//removeStageCollision
+								colliders.removeAttribute('n-mesh-collider');
+							}
+						}
+
+						endScreen.setAttribute('position', '0 0 0');
+						endScreen2.setAttribute('position', '0 0 0');
+					}
+
+				} else {
+					sync.instance.child('screenState').set(1);
+				}
+			});
+
+			sync.instance.child('countdown').on('value', function(data){
+				if (data.val() != null) {
+					endGameText.setAttribute('n-text', 'text', '<size=250%>' + data.val());
+					endGameText2.setAttribute('n-text', 'text', '<size=250%>' + data.val());
+
+					endGameScoreText.setAttribute('n-text', 'text', '');
+					endGameScoreText2.setAttribute('n-text', 'text', '');
+				}
+			});
+
+			function checkJointScores(s) {
+				s[0].pos = '1:';
+				for (var i = 1; i < 5; i++) {
+					if (s[i]) {
+						if (s[i].score == s[i - 1].score) {
+							s[i].pos = '<color=black>1:</color>';
+						} else {
+							s[i].pos = i + 1 + ':';
+						}
+					}
+				}
+			}
+
+			var currentCategory;
+			sync.instance.child('category').on('value', function(data){
+				if (data.val() != null) {
+					currentCategory = data.val();
+					console.log('Current Catergory:', currentCategory);
+				}
+			});
+
+			var categoriesLeft = categories.slice(0);
+
+			sync.instance.child('categoriesDone').on('child_added', function(data){
+				for (var i = 0; i < categoriesLeft.length; i++) {
+					if (categoriesLeft[i].id == data.val().id) {
+						categoriesLeft.splice(i, 1);
+						if (categoriesLeft.length == 0) {
+							sync.instance.child('finalRound').set(true);
+						}
+					}
+				}
+			});
+			sync.instance.child('categoriesDone').on('value', function(data){
+				if (data.val() == null) {
+					categoriesLeft = categories.slice(0);
+				}
+				console.log(categoriesLeft);
+			});
+			
+			var finalRound = false;
+			sync.instance.child('finalRound').on('value', function(data){
+				if (data.val() != null) {
+					finalRound = data.val();
+					if (finalRound) {
+						//finalRoundIndicator.setAttribute('position', '0 0 0');
+						finalRoundBack.setAttribute('color', '#cc0');
+					} else {
+						//finalRoundIndicator.setAttribute('position', '0 0 -10');
+						finalRoundBack.setAttribute('color', '#020202');
+					}
+				} else {
+					sync.instance.child('finalRound').set(false);
+				}
+			});
+
+			var round;
+			var currentDiff;
+			sync.instance.child('round').on('value', function(data){
+				if (data.val() != null) {
+					round = data.val();
+					if (round / 5 < 1) {
+							currentDiff = 'easy';
+						} else if (round / 5 < 2) {
+							currentDiff = 'medium';
+						} else {
+							currentDiff ='hard';
+						}
+				} else {
+					sync.instance.child('round').set(0);
+				}
+			});
+			
+			var lastPlayer;
+			sync.instance.child('lastToChoose').on('value', function(data){
+				if (data.val() != null) {
+					lastPlayer = data.val();
+				} else {
+					sync.instance.child('lastToChoose').set(4);
+				}
+			});
+
+			var categoriesOnScreen;
+			sync.instance.child('categories').on('value', function(data){
+				if (data.val() != null) {
+					//mode = data.val();
+					console.log(data.val());
+					resetScreenButtons();
+					categoriesOnScreen = data.val();
+					if (mode == 'category') {
+						var d
+						if (round / 5 < 1) {
+							d = 'Easy';
+						} else if (round / 5 < 2) {
+							d = 'Medium';
+						} else {
+							d ='Hard';
+						}
+
+						questionT.setAttribute('n-text', 'text', 'Round ' + (round + 1) + ' (' + d + ')\n\nChoose a Category');
+						aT.setAttribute('n-text', 'text', data.val()[0]);
+				    bT.setAttribute('n-text', 'text', data.val()[1]);
+				    cT.setAttribute('n-text', 'text', data.val()[2]);
+				    dT.setAttribute('n-text', 'text', data.val()[3]);
+
+						aT.setAttribute('n-text', 'fontSize', 5);
+				    bT.setAttribute('n-text', 'fontSize', 5);
+				    cT.setAttribute('n-text', 'fontSize', 5);
+				    dT.setAttribute('n-text', 'fontSize', 4);
+
+				    questionTScreen.setAttribute('n-text', 'text', 'Round ' + (round + 1) + ' (' + d + ')\n\nChoose a Category');
+				    aTScreen.setAttribute('n-text', 'text', data.val()[0]);
+				    bTScreen.setAttribute('n-text', 'text', data.val()[1]);
+				    cTScreen.setAttribute('n-text', 'text', data.val()[2]);
+				    dTScreen.setAttribute('n-text', 'text', data.val()[3]);
+
+						aTScreen.setAttribute('n-text', 'fontSize', 5);
+				    bTScreen.setAttribute('n-text', 'fontSize', 5);
+				    cTScreen.setAttribute('n-text', 'fontSize', 5);
+				    dTScreen.setAttribute('n-text', 'fontSize', 5);
+
+						setBorderColor(lastPlayer + 1);
+					}
+
+					if (screenState != 3) {
+						sync.instance.child('screenState').set(2);
+					}
+				}
+			});
+
+			sync.instance.child('questions').on('value', function(data){
+				if (data.val() != null) {
+					questions = data.val();
+
+					questionsLoaded = true;
+					clicked = true;
+			  	questionLoadText.setAttribute('n-text', 'text', 'Questions loaded');
+				} else {
+					questions = {pre_game: {questions: []}};
+					questionsLoaded = false;
+			  	questionLoadText.setAttribute('n-text', 'text', 'Questions not loaded');
+				}
+			});
+
+			sync.instance.child('current').on('value', function(data){
+				if (data.val() != null) {
+					current = data.val();
+					if (current != -1 && (mode == 'question') || (mode == 'pregame')) {
+						if (mode == 'pregame' && current == 0) {
+							inPregame = true;
+						}
+						nextQ(current);
+					}
+				} else {
+					sync.instance.child('current').set(-1);
+				}
+			});
+
+			sync.instance.child('selectedAnswer').on('value', function(data){
+				resetScreenButtons();
+				if (data.val() != null) {
+					document.querySelector('#' + data.val() + 'B').object3D.getObjectByName('outer').material.color.set(new THREE.Color('#0af'));
+					document.querySelector('#' + data.val() + 'BScreen').object3D.getObjectByName('outer').material.color.set(new THREE.Color('#0af'));
+				}
+				selected = data.val();
+			});
+
+			var answered;
+			sync.instance.child('answered').on('value', function(data){
+				if (data.val()) {
+					document.querySelector('#' + answer + 'B').object3D.getObjectByName('outer').material.color.set(new THREE.Color('green'));
+					document.querySelector('#' + answer + 'BScreen').object3D.getObjectByName('outer').material.color.set(new THREE.Color('green'));
+					if (selected != answer && selected != null) {
+						document.querySelector('#' + selected + 'B').object3D.getObjectByName('outer').material.color.set(new THREE.Color('red'));
+						document.querySelector('#' + selected + 'BScreen').object3D.getObjectByName('outer').material.color.set(new THREE.Color('red'));
+						setColor(playerBuzzedIn - 1, 'wrong');
+						//sync.instance.child('podiumLightState').child(playerBuzzedIn - 1).set('wrong');
+					} else if (selected == answer) {
+						setColor(playerBuzzedIn - 1, 'correct');
+						//sync.instance.child('podiumLightState').child(playerBuzzedIn - 1).set('correct');
+					}
+				} else {
+					resetScreenButtons();
+				}
+				answered = data.val();
+			});
+			
+			var endTime;
+			var timerEnabled = false;
+			sync.instance.child('endGameTimer').on('value', function(data){
+				if (data.val() != null) {
+					endTime = data.val().time;
+					var d = new Date(endTime);
+					var str = (d.getHours().toString().length == 1 ? '0' : '') + d.getHours() + ':' + (d.getMinutes().toString().length == 1 ? '0' : '') + d.getMinutes();
+					timeText.setAttribute('n-text', 'text', (data.val().enabled ? (d.getTime() > new Date().getTime() ? '<color=#fff>' : '<color=#f00>') : (d.getTime() > new Date().getTime() ? '<color=#444>' : '<color=#300>')) + str);
+					if (data.val().enabled != timerEnabled) {
+						timerEnabled = data.val().enabled;
+						if (timerEnabled) {
+							timerEnableButton.setAttribute('color', 'green');
+						} else {
+							timerEnableButton.setAttribute('color', '#a00');
+						}
+					}
+				} else {
+					sync.instance.child('endGameTimer').set({enabled: false, time: getTime()});
+				}
+			});
+
+			function getTime() {
+				var t = new Date().getTime();
+				var min = new Date().getUTCMinutes();
+				min++;
+				var dif = 1;
+				while (min % 30 != 0) {
+					min++;
+					dif++;
+				}
+				t = t + (dif * 60000) - (new Date(t).getUTCSeconds() * 1000) - new Date(t).getUTCMilliseconds();
+				return t;
+			}
+
+			function addMinutes(t, min) {
+				return t + (min * 60000);
+			}
+			
+			var asd = 5;
+			setInterval(function(){
+				if (timerEnabled && !finalRound) {
+					if (new Date().getTime() > endTime - (asd * 60000) && isHost) {
+						console.log('times up');
+						sync.instance.child('finalRound').set(true);
+						//play sound
+						timeEnd.components.sync.takeOwnership();
+						timeEnd.components['n-sound'].playSound();
+					}
+				}
+			}, 1000);
+
+			function resetScreenButtons() {
+					aB.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#fff'));
+					bB.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#fff'));
+					cB.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#fff'));
+					dB.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#fff'));
+					aBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#fff'));
+					bBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#fff'));
+					cBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#fff'));
+					dBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#fff'));
+			}
+
+			contestantContainer1.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+		    joints: [['Head','Center',0]],
+		    jointCubeSize: .01
+		  }));
+		  contestantContainer2.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+		    joints: [['Head','Center',0]],
+		    jointCubeSize: .01
+		  }));
+		  contestantContainer3.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+		    joints: [['Head','Center',0]],
+		    jointCubeSize: .01
+		  }));
+
+		  var contPos = [false,false,false];
+		  var screenPos = 0;
+
+		  contestantContainer1.object3D.addEventListener('jointcollisionenter', function(e){
+		    contPos[0] = true;
+		    checkPos();
+		  });
+		  contestantContainer2.object3D.addEventListener('jointcollisionenter', function(e){
+		    contPos[1] = true;
+		    checkPos();
+		  });
+		  contestantContainer3.object3D.addEventListener('jointcollisionenter', function(e){
+		    contPos[2] = true;
+		    checkPos();
+		  });
+
+		  contestantContainer1.object3D.addEventListener('jointcollisionleave', function(e){
+		    contPos[0] = false;
+		    checkPos();
+		  });
+		  contestantContainer2.object3D.addEventListener('jointcollisionleave', function(e){
+		    contPos[1] = false;
+		    checkPos();
+		  });
+		  contestantContainer3.object3D.addEventListener('jointcollisionleave', function(e){
+		    contPos[2] = false;
+		    checkPos();
+		  });
+
+		  function checkPos() {
+		  	if (screenPos == 0 && (contPos[0] || contPos[1] || contPos[2])) {
+		  		moveScreen(1);
+		  	} else if (screenPos == 1 && !contPos[0] && !contPos[1] && !contPos[2]) {
+		  		moveScreen(0);
+		  	}
+		  }
+
+		  function moveScreen(i) {
+		  	screenPos = i;
+		  	var a = [{pos:{x:0,y:0,z:1.2}, scale:{x:1,y:1,z:1}, rot:{x:0,y:0,z:0}}, 
+								{pos:{x:-1,y:0.1,z:-1}, scale:{x:0.35,y:0.35,z:0.35}, rot:{x:THREE.Math.degToRad(-20),y:THREE.Math.degToRad(-135),z:THREE.Math.degToRad(0)}}];
+
+		  	new TWEEN.Tween(screenContainer.object3D.position).to(a[i].pos, 300).start();
+		  	new TWEEN.Tween(screenContainer.object3D.scale).to(a[i].scale, 300).start();
+		  	new TWEEN.Tween(screenContainer.object3D.rotation).to(a[i].rot, 300).start();
+		  }
+
+      podiumList[0].getObjectByName('button').addEventListener('cursordown', function(){
+      	buzz(1);
+      });
+      podiumList[1].getObjectByName('button').addEventListener('cursordown', function(){
+      	buzz(2);
+      });
+      podiumList[2].getObjectByName('button').addEventListener('cursordown', function(){
+      	buzz(3);
+      });
+      podiumList[3].getObjectByName('button').addEventListener('cursordown', function(){
+      	buzz(4);
+      });
+      podiumList[4].getObjectByName('button').addEventListener('cursordown', function(){
+      	buzz(5);
+      });
+
+      podiumList[0].getObjectByName('button').addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+        joints: [['Middle','Right',0],['Middle','Right',1],['Middle','Right',2],['Middle','Right',3],['Middle','Left',0],['Middle','Left',1],['Middle','Left',2],['Middle','Left',3]],
+        jointCubeSize: .02
+      }));
+      podiumList[1].getObjectByName('button').addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+        joints: [['Middle','Right',0],['Middle','Right',1],['Middle','Right',2],['Middle','Right',3],['Middle','Left',0],['Middle','Left',1],['Middle','Left',2],['Middle','Left',3]],
+        jointCubeSize: .02
+      }));
+      podiumList[2].getObjectByName('button').addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+        joints: [['Middle','Right',0],['Middle','Right',1],['Middle','Right',2],['Middle','Right',3],['Middle','Left',0],['Middle','Left',1],['Middle','Left',2],['Middle','Left',3]],
+        jointCubeSize: .02
+      }));
+      podiumList[3].getObjectByName('button').addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+        joints: [['Middle','Right',0],['Middle','Right',1],['Middle','Right',2],['Middle','Right',3],['Middle','Left',0],['Middle','Left',1],['Middle','Left',2],['Middle','Left',3]],
+        jointCubeSize: .02
+      }));
+      podiumList[4].getObjectByName('button').addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+        joints: [['Middle','Right',0],['Middle','Right',1],['Middle','Right',2],['Middle','Right',3],['Middle','Left',0],['Middle','Left',1],['Middle','Left',2],['Middle','Left',3]],
+        jointCubeSize: .02
+      }));
+
+      podiumList[0].getObjectByName('button').addEventListener('jointcollisionenter', function(e){
+        buzz(1);
+      });
+      podiumList[1].getObjectByName('button').addEventListener('jointcollisionenter', function(e){
+        buzz(2);
+      });
+      podiumList[2].getObjectByName('button').addEventListener('jointcollisionenter', function(e){
+        buzz(3);
+      });
+      podiumList[3].getObjectByName('button').addEventListener('jointcollisionenter', function(e){
+        buzz(4);
+      });
+      podiumList[4].getObjectByName('button').addEventListener('jointcollisionenter', function(e){
+        buzz(5);
+      });
+
+      function buzz(i) {
+      	if (joined == i && playerBuzzedIn == null && mode == 'question') {
+          sync.instance.child('buzz').push(i.toString());
+          
+          buzzIn.components.sync.takeOwnership();
+          buzzIn.components['n-sound'].playSound();
+        }
+      }
+
+			function reset() {
+				aB.setAttribute('color', 'white');
+				bB.setAttribute('color', 'white');
+				cB.setAttribute('color', 'white');
+				dB.setAttribute('color', 'white');
+
+				aT.setAttribute('n-text', 'text', 'A:');
+		    bT.setAttribute('n-text', 'text', 'B:');
+		    cT.setAttribute('n-text', 'text', 'C:');
+		    dT.setAttribute('n-text', 'text', 'D:');
+
+		    questionT.setAttribute('n-text', 'text', '?');
+			}
+		
+
+			var answer;
+			var questions = {pre_game: {questions: []}};
+			var current;
+			var selected;
+
+			var isHost = false;
+
+			var apiKey = '';
+
+			var questionsLoaded = false;
+			var loadingQuestions = false;
+			function getAllQuestions() {
+		  	loadingQuestions = true;
+		  	var diffs = ['easy','medium','hard'];
+		  	var dataRequest = new THREE.FileLoader();
+
+		  	dataRequest.load('https://opentdb.com/api_token.php?command=request&' + Math.random().toString(), function(obj){
+			    var token = JSON.parse(obj).token;
+			    var done = 0;
+
+					pregameQGet(4,diffs[0]);
+			  	pregameQGet(3,diffs[1]);
+			  	pregameQGet(3,diffs[2]);
+
+			  	categories.forEach(function(c){
+			  		qGet(c,diffs[0]);
+			  		qGet(c,diffs[1]);
+			  		qGet(c,diffs[2]);
+			  	});
+
+			  	function qGet(cat,diff) {
+			  		dataRequest.load('https://opentdb.com/api.php?amount=5&difficulty=' + diff + '&type=multiple&encode=url3986&category=' + cat.id + '&token=' + token + '&' + Math.random().toString(), function(obj){
+							var data = JSON.parse(obj);
+
+							if (data.response_code != 0) {
+								console.log('ERROR: ' + cat.id + ' ' + cat.name +  ' ' + diff);
+								sync.instance.child('categoriesDone').push(cat);
+							}
+
+							decode(data);
+			  			sortAnswers(data.results);
+
+							if (questions[cat.id.toString()]) {
+			  				questions[cat.id.toString()][diff] = data.results;
+			  			} else {
+			  				questions[cat.id.toString()] = {category: cat.name};
+			  				questions[cat.id.toString()][diff] = data.results;
+			  			}
+
+							done ++;
+							questionLoadText.setAttribute('n-text', 'text', Math.round((done * 100) / ((categories.length * diffs.length) + 3)) + '%');
+							if (done == categories.length * diffs.length + 3) {
+								finished();
+							}
+						}, undefined, undefined);
+			  	}
+
+			  	var preTemp = {};
+
+			  	function pregameQGet(amm,diff) {
+			  		dataRequest.load('https://opentdb.com/api.php?amount=' + amm + '&difficulty=' + diff + '&type=multiple&encode=url3986&token=' + token + '&' + Math.random().toString(), function(obj){
+							var data = JSON.parse(obj);
+							decode(data);
+			  			sortAnswers(data.results);
+			  			
+			  			preTemp[diff] = data.results;
+
+			  			if (preTemp.easy && preTemp.medium && preTemp.hard) {
+			  				questions.pre_game = {questions: preTemp.easy.concat(preTemp.medium,preTemp.hard)};
+			  			}
+
+							done ++;
+							questionLoadText.setAttribute('n-text', 'text', Math.round((done * 100) / ((categories.length * diffs.length) + 3)) + '%');
+							if (done == categories.length * diffs.length + 3) {
+								finished();
+							}
+						}, undefined, undefined);
+			  	}
+
+			  	function finished() {
+			  		console.log(questions);
+			  		questionLoadText.setAttribute('n-text', 'text', 'Questions loaded');
+						sync.instance.child('questions').set(questions);
+						questionsLoaded = true;
+						loadingQuestions = false;
+			  	}
+
+		  	}, undefined, undefined);
+		  }
+
+		  function sortAnswers(list) {
+		  	for (var i = 0; i < list.length; i++) {
+		  		var c = Math.floor(Math.random() * 4);
+			    var answers = list[i].incorrect_answers
+			    shuffleArray(answers);
+
+			    answers.splice(c, 0, list[i].correct_answer);
+
+			    if (c == 0) {
+			    	list[i].correct_answer = 'a';
+			    } else if (c == 1) {
+			    	list[i].correct_answer = 'b';
+			    } else if (c == 2) {
+			    	list[i].correct_answer = 'c';
+			    } else if (c == 3) {
+			    	list[i].correct_answer = 'd';
+			    }
+			    list[i].answers = list[i].incorrect_answers;
+			    delete list[i].incorrect_answers;
+			    delete list[i].category;
+		  		delete list[i].type;
+		  		delete list[i].difficulty;
+		  	}
+		  }
+
+		  function decode(data) {
+		  	for (var i = 0; i < data.results.length; i++) {
+		  		data.results[i].category = decodeURIComponent(data.results[i].category);
+		  		data.results[i].difficulty = decodeURIComponent(data.results[i].difficulty);
+		  		data.results[i].question = decodeURIComponent(data.results[i].question);
+		  		data.results[i].correct_answer = decodeURIComponent(data.results[i].correct_answer);
+		  		for (var x = 0; x < 3; x++) {
+						data.results[i].incorrect_answers[x] = decodeURIComponent(data.results[i].incorrect_answers[x]);
+		  		}
+		  	}
+		  	return data;
+		  }
+			
+			var timeTemp;
+
+		  var timeAnim = new TWEEN.Tween(bigScreen.object3D.getObjectByName('border').material.map.offset).to({x: -.497}, 10000)
+				.onUpdate(function(){
+				var time = Math.floor(11 - timeAnim._object.x / timeAnim._valuesEnd.x * 10);
+				if (time != timeTemp) {
+					timeTemp = time;
+					//console.log(time);
+					pregameTimeCount.setAttribute('n-text', 'text', time);
+					pregameTimeCount2.setAttribute('n-text', 'text', time);
+				}
+			}).onComplete(function(){
+				pregameTimeCount.setAttribute('n-text', 'text', "Time's up!");
+				pregameTimeCount2.setAttribute('n-text', 'text', "Time's up!");
+				pregameCheck();
+
+				if (isHost || isMod) {
+					sync.instance.child('pregame').child('timerEnded').set(true);
+				}
+			});
+
+		  function nextQ(c) {
+				if (mode != 'category') {
+					setBorderColor(0);
+				}
+		  	current = c;
+		  	//console.log('Question ' + (current + 1));
+		  	answered = false;
+				var q;
+
+		  	if (mode == 'pregame') {
+		  		pregameAnswer = null;
+					q = questions.pre_game.questions[current];
+					
+					if (!pregameTimerEnded) {
+						bigScreen.object3D.getObjectByName('border').material.color = new THREE.Color(.5,1,1);
+						bigScreen.object3D.getObjectByName('border').material.map.offset.x = 0;
+						timeAnim.start();
+					}
+		  	} else {
+					pregameTimeCount.setAttribute('n-text', 'text', '');
+					pregameTimeCount2.setAttribute('n-text', 'text', '');
+		  		bigScreen.object3D.getObjectByName('border').material.color = new THREE.Color(0,0,0);
+					bigScreen.object3D.getObjectByName('border').material.map.offset.x = 0;
+			  	q = questions[currentCategory][currentDiff][current];
+
+					//fix this
+			  }
+
+		  	resetScreenButtons();
+
+				if (mode == 'pregame' && !inPregame) {
+					aBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#666'));
+					bBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#666'));
+					cBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#666'));
+					dBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#666'));
+				}
+
+		    questionT.setAttribute('n-text', 'text', (current + 1) +  ': ' + q.question.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+		    questionTScreen.setAttribute('n-text', 'text', q.question.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+
+		    var answers = q.answers
+
+		    var sizes = getSizes(answers);
+		    
+		    aT.setAttribute('n-text', 'text', 'A: ' + answers[0].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+		    bT.setAttribute('n-text', 'text', 'B: ' + answers[1].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+		    cT.setAttribute('n-text', 'text', 'C: ' + answers[2].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+		    dT.setAttribute('n-text', 'text', 'D: ' + answers[3].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+
+		    aTScreen.setAttribute('n-text', 'text', 'A: ' + answers[0].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+		    bTScreen.setAttribute('n-text', 'text', 'B: ' + answers[1].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+		    cTScreen.setAttribute('n-text', 'text', 'C: ' + answers[2].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+		    dTScreen.setAttribute('n-text', 'text', 'D: ' + answers[3].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+
+		    aT.setAttribute('n-text', 'fontSize', sizes[0]);
+		    bT.setAttribute('n-text', 'fontSize', sizes[1]);
+		    cT.setAttribute('n-text', 'fontSize', sizes[2]);
+		    dT.setAttribute('n-text', 'fontSize', sizes[3]);
+
+		    aTScreen.setAttribute('n-text', 'fontSize', sizes[0]);
+		    bTScreen.setAttribute('n-text', 'fontSize', sizes[1]);
+		    cTScreen.setAttribute('n-text', 'fontSize', sizes[2]);
+		    dTScreen.setAttribute('n-text', 'fontSize', sizes[3]);
+
+		    answer = q.correct_answer;
+		  }
+
+		  function categorySelect() {
+		  	questionT.setAttribute('n-text', 'text', 'Select a Category');
+		  	aT.setAttribute('n-text', 'text', categoriesLeft[0].name);
+		  	bT.setAttribute('n-text', 'text', categoriesLeft[1].name);
+		  	cT.setAttribute('n-text', 'text', categoriesLeft[2].name);
+		  	dT.setAttribute('n-text', 'text', categoriesLeft[3].name);
+
+		  	questionTScreen.setAttribute('n-text', 'text', 'Select a Category');
+		  	aTScreen.setAttribute('n-text', 'text', categoriesLeft[0].name);
+		  	bTScreen.setAttribute('n-text', 'text', categoriesLeft[1].name);
+		  	cTScreen.setAttribute('n-text', 'text', categoriesLeft[2].name);
+		  	dTScreen.setAttribute('n-text', 'text', categoriesLeft[3].name);
+		  }
+
+			function getNextPlayer(last) {
+				var check = false;
+				for (var i = 0; i < players.length; i++) {
+					if (players[i].joined) {
+						check = true;
+					}
+				}
+
+				if (check) {
+					var done = false;
+					while (!done) {
+						if (last == 0) {
+							last = players.length - 1;
+						} else {
+							last--;
+						}
+						if (players[last].joined) {
+							done = true;
+							return last;
+						}
+					}
+				}
+			}
+
+		  aB.addEventListener('mouseup', function(){
+		  	if ((isHost || isMod) && aT.getAttribute('n-text').text != '') {
+					select('a');
+				}
+		  });
+		  bB.addEventListener('mouseup', function(){
+		  	if ((isHost || isMod) && bT.getAttribute('n-text').text != '') {
+					select('b');
+				}
+		  });
+		  cB.addEventListener('mouseup', function(){
+		  	if ((isHost || isMod) && cT.getAttribute('n-text').text != '') {
+					select('c');
+				}
+		  });
+		  dB.addEventListener('mouseup', function(){
+		  	if ((isHost || isMod) && dT.getAttribute('n-text').text != '') {
+					select('d');
+				}
+		  });
+
+		  function select(a) {
+				if (mode != 'pregame' && (playerBuzzedIn != null || mode == 'category')) {
+					if (selected == a) {
+						selected = null;
+					} else {
+						selected = a;
+					}
+					sync.instance.child('selectedAnswer').set(selected);
+				}
+		  }
+
+		  function getSizes(arr) {
+		  	var result = [5,5,5,5];
+		  	for ( var i = 0; i < 4; i++) {
+			  	if (arr[i].length > 50) {
+			  		result[i] = 3;
+			  	} else if (arr[i].length > 30) {
+			  		result[i] = 4;
+		  		}
+		  	}
+		  	return result;
+		  }
+
+		  function checkAnswer(a) {
+		  	console.log(a, answer, scores, playerBuzzedIn);
+		  	if (a == answer) {
+					if (currentDiff == 'easy') {
+						players[playerBuzzedIn - 1].score++;
+					} else if (currentDiff == 'medium') {
+						players[playerBuzzedIn - 1].score += 2;
+					} else {
+						players[playerBuzzedIn - 1].score += 3;
+					}
+					
+			  	correct.components.sync.takeOwnership();
+			  	correct.components['n-sound'].playSound();
+			  } else {
+			  	players[playerBuzzedIn - 1].score--;
+
+			  	incorrect.components.sync.takeOwnership();
+			  	incorrect.components['n-sound'].playSound();
+			  }
+			  sync.instance.child('players').set(players);
+		  	sync.instance.child('answered').set('true');
+		  }
+
+
+		  var clicked = false;
+
+			var confirmFunction = '';
+		  endGameB.addEventListener('mouseup', function(){
+				if ((isHost || isMod) && mode != 'winner' && screenState != 1) {
+					showDialog('end');
+					confirmFunction = 'end';
+					click.components['n-sound'].playSound();
+				} else if (mode == 'winner') {
+					endGame();
+					click.components['n-sound'].playSound();
+				}
+			});
+
+			confirmNo.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					confirmDialog.setAttribute('position', '0 0 0');
+					click.components['n-sound'].playSound();
+				}
+			});
+			confirmYes.addEventListener('mouseup', function(){
+		  	if (isHost || isMod) {
+					if (confirmFunction.includes('kick')) {
+						var i = Number(confirmFunction.slice(4,5));
+						sync.instance.child('players').child(i - 1).set({joined: false});
+					} else if (confirmFunction == 'clear') {
+						sync.instance.child('players').set(null);
+					} else {
+						endGame();
+					}
+					confirmDialog.setAttribute('position', '0 0 0');
+					click.components['n-sound'].playSound();
+			  }
+			});
+
+			function showDialog(a) {
+				if(a == 'kick') {
+					confirmText.setAttribute('n-text', 'text', 'Kick Player?');
+				} else if (a == 'clear') {
+					confirmText.setAttribute('n-text', 'text', '<size=75%>Remove All\nPlayers?');
+				} else {
+					confirmText.setAttribute('n-text', 'text', 'End Game?');
+				}
+				
+				
+				confirmDialog.setAttribute('position', '0 0 0.02');
+			}
+			
+			function endGame() {
+				sync.instance.child('categories').set(null);
+				if (screenState == 3 && mode == 'winner') {
+					sync.instance.child('buzz').set(null);
+					sync.instance.child('answered').set(false);
+					sync.instance.child('questions').set(null);
+					sync.instance.child('round').set(0);
+					sync.instance.child('current').set(-1);
+					sync.instance.child('selectedAnswer').set(null);
+					sync.instance.child('category').set(null);
+					sync.instance.child('categoriesDone').set(null);
+					sync.instance.child('mode').set('category');
+					sync.instance.child('screenState').set(1);
+					sync.instance.child('lastToChoose').set(4);
+					sync.instance.child('pregame').child('players').set(null);
+					sync.instance.child('endGameTimer').set(null);
+					sync.instance.child('finalRound').set(false);
+				} else {
+					sync.instance.child('mode').set('winner');
+					sync.instance.child('screenState').set(1);
+					sync.instance.child('screenState').set(3);
+				}
+			}
+
+		  function nextQuestion() {
+				if (mode == 'pregame') {
+					sync.instance.child('pregame').child('timerEnded').set(false);
+				}
+			  sync.instance.child('current').set(current + 1);
+			  sync.instance.child('answered').set(false);
+			  sync.instance.child('selectedAnswer').set(null);
+			  sync.instance.child('buzz').set(null);
+		  }
+
+		  var indexes = ['a','b','c','d'];
+
+		  function answerQuestion() {
+		  	//console.log('selected', selected);
+				if (selected != null) {
+					if (mode == 'category') {
+						console.log(categoriesOnScreen[indexes.indexOf(selected)]);
+						//console.log(categories);
+						for (var i = 0; i < categories.length; i++) {
+							if (categories[i].name == categoriesOnScreen[indexes.indexOf(selected)]) {
+								sync.instance.child('category').set(categories[i].id);
+								sync.instance.child('categoriesDone').push(categories[i]);
+
+								sync.instance.child('selectedAnswer').set(null);
+				    		sync.instance.child('mode').set('question');
+								sync.instance.child('current').set(-1);
+				    		sync.instance.child('current').set(0);
+							}
+						}
+						//sync.instance.child('answered').set(false);
+					} else {
+						checkAnswer(selected);
+					}
+				} else {
+					sync.instance.child('answered').set(true);
+				}
+		  }
+
+		  function categorySelect(rUp) {
+		  	shuffleArray(categoriesLeft);
+		  	
+		  	if (rUp) {
+			  	sync.instance.child('round').set(round + 1);
+			  }
+
+		  	sync.instance.child('buzz').set(null);
+		  	sync.instance.child('answered').set(false);
+			  sync.instance.child('selectedAnswer').set(null);
+		  	sync.instance.child('mode').set('category');
+				sync.instance.child('screenState').set(2);
+				var cats = [];
+				
+				var	cats = [categoriesLeft[0].name,(categoriesLeft[1] ? categoriesLeft[1].name : ''),(categoriesLeft[2] ? categoriesLeft[2].name : ''),(categoriesLeft[3] ? categoriesLeft[3].name : '')];
+		  	
+				sync.instance.child('categories').set(cats);
+		  	//console.log(categories);
+		  }
+
+		  resetB.addEventListener('mouseup', function(){
+		  	if (isHost || isMod) {
+			  	sync.instance.child('buzz').set(null);
+		  	}
+			});
+			var resetPopupShow;
+			var resetPopupHide;
+			resetB.addEventListener('mouseenter', function(){
+		  	if (isHost || isMod) {
+					clearTimeout(resetPopupHide);
+					resetPopupShow = setTimeout(function(){
+						resetPopup.object3D.position.z = .2;
+					}, 500);
+		  	}
+			});
+			resetB.addEventListener('mouseleave', function(){
+		  	if (isHost || isMod) {
+					clearTimeout(resetPopupShow);
+					resetPopupHide = setTimeout(function(){
+						resetPopup.object3D.position.z = -1;
+					}, 1000);
+		  	}
+			});
+			
+			var hostPanelState = false;
+			controlB.addEventListener('mouseup', function(){
+		  	if (isHost || isMod) {
+					hostPanelState = !hostPanelState;
+					controlPanelMove();
+		  	}
+			});
+
+			function controlPanelMove() {
+				var controlPanelPos = [{pos:{x:0.65,y:1.3,z:0.4}, scale:{x:1,y:1,z:1}, rot:{x:THREE.Math.degToRad(-40),y:THREE.Math.degToRad(-50),z:0}}, {pos:{x:0,y:1,z:0}, scale:{x:0.25,y:0.25,z:0.25}, rot:{x:THREE.Math.degToRad(-90),y:0,z:0}}];
+				var i = 0;
+				if (!hostPanelState) {
+					i = 1;
+					confirmDialog.setAttribute('position', '0 0 0');
+				}
+				new TWEEN.Tween(hostControlPanel.object3D.position).to(controlPanelPos[i].pos, 500).start();
+				new TWEEN.Tween(hostControlPanel.object3D.scale).to(controlPanelPos[i].scale, 500).start();
+				new TWEEN.Tween(hostControlPanel.object3D.rotation).to(controlPanelPos[i].rot, 500).start();
+			}
+
+			var controlPopupShow;
+			var controlPopupHide;
+			controlB.addEventListener('mouseenter', function(){
+		  	if (isHost || isMod) {
+					clearTimeout(controlPopupHide);
+					controlPopupShow = setTimeout(function(){
+						controlPopup.object3D.position.z = .2;
+					}, 500);
+		  	}
+			});
+			controlB.addEventListener('mouseleave', function(){
+		  	if (isHost || isMod) {
+					clearTimeout(controlPopupShow);
+					controlPopupHide = setTimeout(function(){
+						controlPopup.object3D.position.z = -1;
+					}, 1000);
+		  	}
+			});
+
+			helpB.addEventListener('mouseup', function(){
+		  	if (isHost || isMod) {
+			  	altspace.open(location.origin + location.pathname + 'help/');
+		  	}
+			});
+			var helpPopupShow;
+			var helpPopupHide;
+			helpB.addEventListener('mouseenter', function(){
+		  	if (isHost || isMod) {
+					clearTimeout(helpPopupHide);
+					helpPopupShow = setTimeout(function(){
+						helpPopup.object3D.position.z = .2;
+					}, 500);
+		  	}
+			});
+			helpB.addEventListener('mouseleave', function(){
+		  	if (isHost || isMod) {
+					clearTimeout(helpPopupShow);
+					helpPopupHide = setTimeout(function(){
+						helpPopup.object3D.position.z = -1;
+					}, 1000);
+		  	}
+			});
+
+			controlPanelClose.addEventListener('mouseup', function(){
+		  	if (isHost || isMod) {
+					hostPanelState = false;
+					controlPanelMove();
+		  	}
+		  });
+			
+			var firstPlayer = false;
+
+			function anyPlayers() {
+				var a = false;
+				for (var i = 0; i < players.length; i++) {
+					if (players[i].joined) {
+						a = true;
+					}
+				}
+				return a;
+			}
+
+		  hostNext.addEventListener('mouseup', function(){
+				if (!hasHost) {
+					altspace.getSpace().then(function(space){
+						sync.instance.child('host').set({displayName: user.displayName, userId: user.userId, space: space.sid});
+					});
+					if (!questionsLoaded) {
+		  			//console.log('loadQuestions');
+		  			if(!loadingQuestions) {
+			  			getAllQuestions();
+			  		}
+		  		}
+				} else if (isHost || isMod) {
+					if (mode == 'winner') {
+						endGame();
+					} else if (!questionsLoaded) {
+		  			//console.log('loadQuestions');
+		  			if(!loadingQuestions) {
+			  			getAllQuestions();
+			  		}
+		  		} else if ((current == -1 && selected == null) || (mode == 'category' && selected == null) || (answered && current == 4) || (mode == 'pregame' && screenState == 3) || mode == 'scores') {
+		  			if (anyPlayers()) {
+							if(answered && current == 4 && mode == 'question') {
+								if (finalRound) {
+									//console.log('end game');
+									endGame();
+								} else {
+									//console.log('show scores');
+									showScores();
+								}
+							} else {
+
+								//console.log('go to gategory selection');
+								if (round == 0 && !players[4].joined && !firstPlayer) {
+									sync.instance.child('lastToChoose').set(getNextPlayer(lastPlayer));
+									firstPlayer = true;
+								}
+								if ((mode == 'category' && selected == null) || mode == 'pregame') {
+									categorySelect(false);
+								} else {							
+									sync.instance.child('lastToChoose').set(getNextPlayer(lastPlayer));
+									categorySelect(true);
+								}
+							}
+						} else if (!countdownStarted) {
+							//console.log('start pregame');
+							startPregameCountdown();
+							//startPregame();
+						}
+		  		} else if ((mode == 'category' && !answered) || mode == 'question' && !answered && ((playerBuzzedIn != null && selected != null) || (playerBuzzedIn == null && selected == null))) {
+		  			//console.log('answer question');
+		  			answerQuestion();
+		  		} else if (mode == 'pregame' && (current == 9 || remainingPlayers < 6)) {
+						//console.log('end pregame');
+						endPregame();
+					} else if ((answered && current < 4) || (mode == 'category' && selected != null) || (mode == 'pregame' && current < 9 && screenState == 2)) {
+		  			//console.log('go to next question');
+		  			nextQuestion();
+		  		}
+		  	}
+				updateButtonText();
+		  });
+
+			function updateButtonText() {
+				//var str = '<color=#080><b>O </b></color>';
+				//var str = '<size=75%>Press <color=#080>O</color> to ';
+				var str = '';
+				if (!hasHost) {
+					str += 'Click to Host';
+				} else if (mode == 'winner') {
+					str += 'Return to Title';
+				} else if (!questionsLoaded) {
+					if(!loadingQuestions) {
+						str += 'Load Questions';
+					}
+				} else if ((current == -1 && selected == null) || (mode == 'category' && selected == null) || (answered && current == 4) || (mode == 'pregame' && screenState == 3) || mode == 'scores') {
+					if (anyPlayers()) {
+						if(answered && current == 4 && mode == 'question') {
+							if (finalRound) {
+								str += 'End Game';
+							} else {
+								str += 'Show Scores';
+							}
+						} else {
+							if ((mode == 'category' && selected == null) || mode == 'pregame') {
+								if ((round == 0 && screenState == 1) || mode == 'pregame') {
+									str += 'Start Game';
+								} else {
+									str += 'Shuffle Categories';
+								}
+							} else {
+								str += 'Next Round';
+							}
+						}
+					} else {
+						str += 'Start Player Selection';
+					}
+				} else if ((mode == 'category' && !answered) || mode == 'question' && !answered && ((playerBuzzedIn != null && selected != null) || (playerBuzzedIn == null && selected == null))) {
+					if (mode == 'category') {
+						str += 'Select Category';
+					} else if (playerBuzzedIn == null) {
+						str += 'Skip Question';
+					} else {
+						str += 'Reveal Answer';
+					}
+				} else if (mode == 'pregame' && (current == 9 || remainingPlayers < 6)) {
+					str += 'Reveal Top 5';
+				} else if ((answered && current < 4) || (mode == 'category' && selected != null) || (mode == 'pregame' && current < 9 && screenState == 2)) {
+					str += 'Next Question';
+				}
+				hostButtonText.setAttribute('n-text', 'text', str);
+				if (str == '') {
+					hostNext.setAttribute('color', '#343');
+				} else {
+					hostNext.setAttribute('color', '#282');
+				}
+			}
+
+			sync.instance.on('value', function(){
+				updateButtonText();
+			});
+
+			manJoinB.addEventListener('mouseup', function(){
+				if ((isHost || isMod) && !isActivity) {
+					sync.instance.child('settings').child('manualJoin').set(!settings.manualJoin);
+					click.components['n-sound'].playSound();
+				}
+			});
+			hostManJoinB.addEventListener('mouseup', function(){
+				if ((isHost || isMod) && !isActivity) {
+					sync.instance.child('settings').child('manualJoinHost').set(!settings.manualJoinHost);
+					click.components['n-sound'].playSound();
+				}
+			});
+			endKickB.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					sync.instance.child('settings').child('endGameKick').set(!settings.endGameKick);
+					click.components['n-sound'].playSound();
+				}
+			});
+
+			clearPlayersB.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					confirmFunction = 'clear';
+					showDialog(confirmFunction);
+					click.components['n-sound'].playSound();
+				}
+			});
+
+		  var joined = 0;
+		  for (var i = 0; i < 5; i++) {
+		  	document.querySelectorAll('.joinButton')[i].addEventListener('mouseup', function(e){
+			  	var i = parseInt(e.target.id.slice(1,2));
+			  	if (!players[i - 1].joined && joined == 0 && settings.manualJoin) {
+			  		//join
+			  		sync.instance.child('players').child(i - 1).set({displayName: user.displayName, id: user.userId, joined: true, score: 0});
+			  	} else if (joined == i || isMod) {
+			  		//leave
+			  		sync.instance.child('players').child(i - 1).set({joined: false});
+			  	}
+			  });
+
+				document.querySelectorAll('.kickButton')[i].addEventListener('mouseup', function(e){
+			  	var i = parseInt(e.target.id.slice(1,2));
+					if ((isHost || isMod) && players[i - 1].joined) {
+						//sync.instance.child('players').child(i - 1).set({joined: false});
+						showDialog('kick');
+						confirmFunction = 'kick' + i;
+						click.components['n-sound'].playSound();
+					}
+			  });
+
+				document.querySelectorAll('.addButton')[i].addEventListener('mouseup', function(e){
+			  	var i = parseInt(e.target.id.slice(1,2));
+					if ((isHost || isMod) && players[i - 1].joined) {
+						sync.instance.child('players').child(i - 1).child('score').set(players[i - 1].score + 1);
+						click.components['n-sound'].playSound();
+					}
+			  });
+
+				document.querySelectorAll('.subtractButton')[i].addEventListener('mouseup', function(e){
+			  	var i = parseInt(e.target.id.slice(1,2));
+					if ((isHost || isMod) && players[i - 1].joined) {
+						sync.instance.child('players').child(i - 1).child('score').set(players[i - 1].score - 1);
+						click.components['n-sound'].playSound();
+					}
+			  });
+
+				document.querySelectorAll('.renameButton')[i].addEventListener('mouseup', function(e){
+			  	var i = parseInt(e.target.id.slice(1,2));
+					if ((isHost || isMod) && players[i - 1].joined) {
+						var url = location.origin + location.pathname.slice(0, location.pathname.lastIndexOf('/')) + '/namechange.html' + location.search + '&player=' + (i - 1);
+						altspace.open(url);
+						click.components['n-sound'].playSound();
+					}
+			  });	
+		  }
+
+			timerHourUp.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					sync.instance.child('endGameTimer').child('time').set(addMinutes(endTime, 60));
+					click.components['n-sound'].playSound();
+				}
+			});
+			timerHourDown.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					sync.instance.child('endGameTimer').child('time').set(addMinutes(endTime, -60));
+					click.components['n-sound'].playSound();
+				}
+			});
+			timerMinuteUp.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					sync.instance.child('endGameTimer').child('time').set(addMinutes(endTime, 5));
+					click.components['n-sound'].playSound();
+				}
+			});
+			timerMinuteDown.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					sync.instance.child('endGameTimer').child('time').set(addMinutes(endTime, -5));
+					click.components['n-sound'].playSound();
+				}
+			});
+			timerEnableButton.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					if (timerEnabled && categoriesLeft != 0) {
+						sync.instance.child('finalRound').set(false);
+					}
+					sync.instance.child('endGameTimer').child('enabled').set(!timerEnabled);
+					click.components['n-sound'].playSound();
+				}
+			});
+			timerResetButton.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					sync.instance.child('endGameTimer').set(null);
+					if (categoriesLeft != 0) {
+						sync.instance.child('finalRound').set(false);
+					}
+					click.components['n-sound'].playSound();
+				}
+			});
+
+			hostB.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					if (hasHost) {
+						sync.instance.child('host').set(null);
+					} else {
+						altspace.getSpace().then(function(space){
+							sync.instance.child('host').set({displayName: user.displayName, userId: user.userId, space: space.sid});
+						});
+					}
+					click.components['n-sound'].playSound();
+				}
+			});
+
+			h1Join.addEventListener('mouseup', function(){
+				if (!hasHost) {
+					altspace.getSpace().then(function(space){
+						sync.instance.child('host').set({displayName: user.displayName, userId: user.userId, space: space.sid});
+					});
+				}
+			});
+
+		  //PREGAME STUFF
+				
+			var inPregame = false;
+			var remainingPlayers = 0;
+			
+			var responseTimes = [];
+
+			var preUser = sync.instance.child('pregame').child('players').child(user.displayName + user.userId);
+
+			preUser.on('value', function(data){
+				if (data.val() != null) {
+					inPregame = data.val().inGame;
+				} else if (current > 0) {
+					inPregame = false;
+				}
+			});
+
+				function sortScores() {
+					sortByKey(pregameScores, 'score');
+					pregameScores.reverse();
+
+					remainingPlayers = 0;
+
+					pregameScores.forEach(function(s) {
+						if (s.inGame) {
+							remainingPlayers++;
+						}
+					});
+
+					preRemain.setAttribute('n-text', 'text', 'Remaining: ' + remainingPlayers);
+
+					var str = '';
+					var str2 = '';
+					for (var i = 0; i < 8; i++) {
+						if (pregameScores[i]) {
+							str += (i + 1) + ': ' + pregameScores[i].displayName + '\n';
+							str2 += Math.floor(pregameScores[i].score) + '	' + (10 - Math.floor(((pregameScores[i].score - Math.floor(pregameScores[i].score)) * 10) * 100) / 100).toString().slice(0,4) + '\n';
+						} else {
+							str += (i + 1) + ': \n';
+							str2 += '\n';
+						}
+					}
+					preLeaders.setAttribute('n-text', 'text', str);
+					preLeaderScores.setAttribute('n-text', 'text', str2);
+				}
+
+				function showScores() {
+					sync.instance.child('answered').set(false);
+					sync.instance.child('mode').set('scores');
+					sync.instance.child('screenState').set(3);
+				}
+				
+				var countdownStarted = false;
+				function startPregameCountdown() {
+					countdownStarted = true;
+					var count = 5;
+					console.log(count);
+					sync.instance.child('countdown').set(count);
+					sync.instance.child('mode').set('countdown');
+					sync.instance.child('screenState').set(3);
+					var countdown = setInterval(function(){
+						count--;
+						console.log(count);
+						if (count == 0) {
+							clearInterval(countdown);
+							countdownStarted = false;
+							sync.instance.child('countdown').set(null);
+							startPregame();
+						} else {
+							sync.instance.child('countdown').set(count);
+						}
+					}, 1000);
+				}
+
+				function startPregame() {
+					sync.instance.child('pregame').child('timerEnded').set(false);
+					sync.instance.child('buzz').set(null);
+					sync.instance.child('answered').set(false);
+					sync.instance.child('selectedAnswer').set(null);
+					sync.instance.child('mode').set('pregame');
+					sync.instance.child('screenState').set(2);
+					sync.instance.child('current').set(0);
+				}
+
+				function endPregame() {
+					var top5 = [];
+					for (var i = 0; i < 5; i++) {
+						top5.push(pregameScores[i] ? {displayName: pregameScores[i].displayName, id: pregameScores[i].userId, joined: true, score: 0}	: {joined: false});
+					}
+					top5.reverse();
+
+					console.log(top5);
+					sync.instance.child('players').set(top5);
+					sync.instance.child('screenState').set(3);
+				}
+
+				aBScreen.addEventListener('mouseup', function(){
+					pregameSelect('a');
+				});
+
+				bBScreen.addEventListener('mouseup', function(){
+					pregameSelect('b');
+				});
+
+				cBScreen.addEventListener('mouseup', function(){
+					pregameSelect('c');
+				});
+
+				dBScreen.addEventListener('mouseup', function(){
+					pregameSelect('d');
+				});
+
+				var pregameAnswer = null;
+				function pregameSelect(s) {
+					console.log(s);
+					if (mode == 'pregame' && inPregame && !pregameAnswer) {
+						console.log(s);
+						aBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#666'));
+						bBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#666'));
+						cBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#666'));
+						dBScreen.object3D.getObjectByName('outer').material.color.set(new THREE.Color('#666'));
+
+						document.querySelector('#' + s + 'BScreen').object3D.getObjectByName('outer').material.color.set(new THREE.Color('#0af'));
+
+						var time = timeAnim._object.x / timeAnim._valuesEnd.x * 10;
+						console.log(time);
+						responseTimes.push(time);
+						pregameAnswer = s;
+					}
+				}
+
+				function pregameCheck() {
+					console.log("time's up");
+
+					var answer = questions.pre_game.questions[current].correct_answer;
+
+					if (pregameAnswer != null) {
+						document.querySelector('#' + pregameAnswer + 'BScreen').object3D.getObjectByName('outer').material.color.set(new THREE.Color('red'));
+						if (pregameAnswer == answer){
+							pregameScore += 1;
+							//scoreText.setAttribute('n-text', 'text', score);
+							preUser.set({displayName: user.displayName, inGame: true, userId: user.userId, score: Math.floor(pregameScore) + (1 - (getAverage(responseTimes) / 10))});
+						}
+					}
+					document.querySelector('#' + answer + 'BScreen').object3D.getObjectByName('outer').material.color.set(new THREE.Color('green'));
+					document.querySelector('#' + answer + 'B').object3D.getObjectByName('outer').material.color.set(new THREE.Color('green'));
+
+					if (inPregame && (pregameAnswer == null || pregameAnswer != answer)) {
+						inPregame = false;
+						console.log("You're out");
+						preUser.once('value', function(data) {
+							if (data.val() != null) {
+								preUser.child('inGame').set(false);
+							}
+						});
+					}
+				}
+
+				trapdoorBox.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+					joints: [['Head','Center',0]],
+					jointCubeSize: .01
+				}));
+
+				trapdoorBox.object3D.addEventListener('jointcollisionenter', function(e){
+					trapdoorPortal.setAttribute('position', '0 0 0');
+
+					setTimeout(function(){
+						trapdoorPortal.setAttribute('position', '0 -100 0');
+					}, 100);
+				});
+				
+			}
+	  });
+  });
+
+	function getAverage(arr) {
+		var sum = 0;
+		for (var i = 0; i < arr.length; i++) {
+			sum += arr[i];
+		}
+		return sum / (arr.length);
+	}
+	function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+      var x = a[key]; var y = b[key];
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+	}
+	function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
+  }
+	function findGetParameter(parameterName) {
+		var result = null,
+			tmp = [];
+		location.search
+		.substr(1)
+			.split("&")
+			.forEach(function (item) {
+			tmp = item.split("=");
+			if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+		});
+		return result;
+	}
+</script>		
+</body>
+</html>

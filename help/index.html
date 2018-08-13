@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AltQuiz Help</title>
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		h2 {
+			margin-bottom: 0px;
+		}
+
+		/* p {
+			margin-top: 0px;
+			margin-left: 47px;
+		} */
+
+		.center {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			zoom: 300%;
+		}
+
+		.accordion {
+			background-color: #333;
+			color: #fff;
+			cursor: pointer;
+			padding: 18px;
+			width: 100%;
+			border: none;
+			text-align: left;
+			outline: none;
+			font-size: 15px;
+			transition: 0.4s;
+		}
+
+		.active, .accordion:hover {
+			background-color: #00c; 
+		}
+
+		.panel {
+			padding: 0 18px;
+			display: none;
+			background-color: #777;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body style='background-color: black'>
+
+	<h1 style="color: white">AltQuiz</h1>
+
+	<button class="accordion">Game Rules & Tips</button>
+	<div class="panel">
+		<button class="accordion">Game Rules</button>
+		<div class="panel">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		</div>
+		<button class="accordion">Player Selection</button>
+		<div class="panel">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		</div>
+		<button class="accordion">Hosting Tips</button>
+		<div class="panel">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		</div>
+	</div>
+	<p></p>
+	<button class="accordion">Host Podium Controls<div style="float: right"></div></button>
+	<div class="panel">
+		<h2><img src='helpB.png' width='40px'> Help Button</h2>
+		<p style='margin-top: 0px; margin-left: 47px;'>Opens the page you are currently reading.</p>
+		<h2><img src='resetB.png' width='40px'> Reset Buzzers Button</h2>
+		<p style='margin-top: 0px; margin-left: 47px;'>Resets the podium buzzers so that another player may buzz in. Press if a player has buzzed in accidentaly or has buzzed in and changed their mind.</p>
+		<h2><img src='nextB.png' width='40px'> Next Button</h2>
+		<p style='margin-top: 0px; margin-left: 47px;'>Goes next or something.</p>
+		<h2><img src='final.jpg' width='40px'> Final Round Indicator</h2>
+		<p style='margin-top: 0px; margin-left: 47px;'>When illuminated in yellow, indicates that the current round is the last round of the game. This is either happens when running out of available questions, or when the event is nearly over.</p>
+		<h2><img src='controlB.png' width='40px'> Control Panel Button</h2>
+		<p style='margin-top: 0px; margin-left: 47px;'>Opens and closes the control panel (more information below).</p>
+		<button class="accordion">Control Panel</button>
+		<div class="panel">
+			<img src="panel.jpg" style='display:block; margin-left:auto; margin-right:auto;' width='70%'>
+			<h2>Podium Controls</h2>
+			<p><b>Add/Sub:</b><br>
+				Manually add or subtract a point from the selected player. Note, points are awarded automatically<br><br>
+				<b>Rename:</b><br>
+				Change the name of the selected player. If a player with a long display name is playing, you can use the rename button to shorten the name. (Tip: if a player with a guest account is playing, you can ask them for their real name or nickname and rename them.)<br><br>
+				<b>Kick:</b><br>
+				Remove the selected player from the game.</p>
+			<h2>End Game Timer</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+			<h2>Game Options</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		</div>
+		<p></p>
+	</div>
+
+	
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+		acc[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var panel = this.nextElementSibling;
+				if (panel.style.display === "block") {
+						panel.style.display = "none";
+				} else {
+						panel.style.display = "block";
+				}
+		});
+}
+</script>
+</body>
+</html>
