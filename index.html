@@ -6,7 +6,7 @@
 	<script src="https://sdk.altvr.com/libs/altspace.js/2.9.0/altspace.min.js"></script>
 </head>
 <body>
-	<a-scene position='0 0 0' altspace='fullspace: true' sync-system='author: BenG; app: quizStage; refUrl: https://altvr-apps.firebaseio.com/'>
+	<a-scene position='0 0 0' altspace='fullspace: true' sync-system='author: BenG; app: AltQuiz; refUrl: https://altvr-apps.firebaseio.com/'>
 		<!-- <a-entity n-layout-browser='url: https://shanesedit.org/r/mc; isEnclosure: true'></a-entity> -->
 		<a-sky id='sky' radius='500' src='textures/sky.png'></a-sky>
 
@@ -20,15 +20,14 @@
 				<a-plane position='0 .25 -5.5' scale='4.5 .5 0' material='visible: false'></a-plane>
 			</a-entity>
 		</a-entity>
-
-		<!-- <a-plane position='0 0.065 2.25' rotation='-90 0 0' scale='3 1.5 1' src='textures/logo.png' transparent='true' altspace-cursor-collider='enabled: false'></a-plane> -->
+		<a-plane position='0 0.061 2.3' rotation='-90 0 0' scale='4 2 1' src='textures/logo.png' color='#ccc' transparent='true' altspace-cursor-collider='enabled: false'></a-plane>
 
 		<a-entity id='wall' n-mesh-collider='type: environment; convex: false'></a-entity>
 
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v0.56'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v0.57'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
@@ -36,7 +35,7 @@
 						<!-- <a-entity position='0 0 .1' scale='2 2 2' n-text='text: Logo\ngoes here'></a-entity> -->
 						<a-entity position='0 0 -.01' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz"></a-entity>
 						<!-- <a-entity position='0 0 .01' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz\n<align=center><size=30%>It's a quiz"></a-entity> -->
-						<a-plane position='0 0 .01' scale='10 5 1' src='textures/logo.png' transparent='true'></a-plane>
+						<a-plane position='0 0 .01' scale='12 6 1' src='textures/logo.png' transparent='true'></a-plane>
 					</a-entity>
 
 					<a-entity id='gameScreen' position='0 0 -.2'>
@@ -69,7 +68,7 @@
 
 				<a-entity id='titleScreen2' position='0 0 0'>
 					<a-entity position='0 0 -.1' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz"></a-entity>
-					<a-plane position='0 0 .1' scale='10 5 1' src='textures/logo.png' transparent='true'></a-plane>
+					<a-plane position='0 0 .1' scale='12 6 1' src='textures/logo.png' transparent='true'></a-plane>
 					<a-entity id='questionLoadText' position='0 -3.5 .1' n-text='fontSize: 7; text: Questions not loaded'></a-entity>
 				</a-entity>
 
@@ -157,17 +156,19 @@
 					<a-plane id='p2Kick' class='kickButton' position='0 .03 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-box-collider></a-plane>
 					<a-plane id='p1Kick' class='kickButton' position='0 -.01 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-box-collider></a-plane>
 
-					<a-plane id='p5Add' class='addButton' position='-.15 .15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Add' n-box-collider></a-plane>
-					<a-plane id='p4Add' class='addButton' position='-.15 .11 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-box-collider></a-plane>
-					<a-plane id='p3Add' class='addButton' position='-.15 .07 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-box-collider></a-plane>
-					<a-plane id='p2Add' class='addButton' position='-.15 .03 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-box-collider></a-plane>
-					<a-plane id='p1Add' class='addButton' position='-.15 -.01 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#0c0' n-box-collider></a-plane>
+					<!-- <a-entity position='-.15 .07 .012' scale='.015 .015 .015' n-text='text: <line-height=222%><b><color=black>+1\n+1\n+1\n+1\n+1'></a-entity> -->
+					<a-plane id='p5Add' class='addButton' position='-.15 .15 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Add' n-box-collider></a-plane>
+					<a-plane id='p4Add' class='addButton' position='-.15 .11 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-box-collider></a-plane>
+					<a-plane id='p3Add' class='addButton' position='-.15 .07 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-box-collider></a-plane>
+					<a-plane id='p2Add' class='addButton' position='-.15 .03 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-box-collider></a-plane>
+					<a-plane id='p1Add' class='addButton' position='-.15 -.01 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-box-collider></a-plane>
 
-					<a-plane id='p5Sub' class='subtractButton' position='-.1 .15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Sub' n-box-collider></a-plane>
-					<a-plane id='p4Sub' class='subtractButton' position='-.1 .11 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-box-collider></a-plane>
-					<a-plane id='p3Sub' class='subtractButton' position='-.1 .07 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-box-collider></a-plane>
-					<a-plane id='p2Sub' class='subtractButton' position='-.1 .03 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-box-collider></a-plane>
-					<a-plane id='p1Sub' class='subtractButton' position='-.1 -.01 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='#b70' n-box-collider></a-plane>
+					<!-- <a-entity position='-.1 .07 .012' scale='.015 .015 .015' n-text='text: <line-height=222%><b><color=black>-1\n-1\n-1\n-1\n-1'></a-entity> -->
+					<a-plane id='p5Sub' class='subtractButton' position='-.1 .15 .011' scale='.025 .025 .01' src='textures/minusButton.png' transparent='true' color='#b70' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Sub' n-box-collider></a-plane>
+					<a-plane id='p4Sub' class='subtractButton' position='-.1 .11 .011' scale='.025 .025 .01' src='textures/minusButton.png' transparent='true' color='#b70' n-box-collider></a-plane>
+					<a-plane id='p3Sub' class='subtractButton' position='-.1 .07 .011' scale='.025 .025 .01' src='textures/minusButton.png' transparent='true' color='#b70' n-box-collider></a-plane>
+					<a-plane id='p2Sub' class='subtractButton' position='-.1 .03 .011' scale='.025 .025 .01' src='textures/minusButton.png' transparent='true' color='#b70' n-box-collider></a-plane>
+					<a-plane id='p1Sub' class='subtractButton' position='-.1 -.01 .011' scale='.025 .025 .01' src='textures/minusButton.png' transparent='true' color='#b70' n-box-collider></a-plane>
 
 					<a-plane id='p5Rename' class='renameButton' position='-.05 .15 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='blue' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Rename' n-box-collider></a-plane>
 					<a-plane id='p4Rename' class='renameButton' position='-.05 .11 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='blue' n-box-collider></a-plane>
@@ -576,7 +577,8 @@
 					}
 
 					if (isActivity) {
-						//gray out buttons
+						manJoinB.setAttribute('color', '#666');
+						hostManJoinB.setAttribute('color', '#666');
 					}
 				} else {
 					sync.instance.child('settings').set({manualJoin: (isActivity ? true : false), endGameKick: false, manualJoinHost: (isActivity ? true : false)});
@@ -607,6 +609,10 @@
 							document.querySelector('#p' + (i + 1) + 'Score').setAttribute('n-text', 'text', (data.val()[i].score < 0 ? '<color=#600>' : '<color=black>') + data.val()[i].score);
 							document.querySelector('#p' + (i + 1) + 'Join').setAttribute('position', '0 -.5 0');
 							document.querySelector('#p' + (i + 1) + 'ControlPanel').setAttribute('n-text', 'text', '<color=white>' + data.val()[i].displayName);
+							document.querySelector('#p' + (i + 1) + 'Add').setAttribute('color', '#0c0');
+							document.querySelector('#p' + (i + 1) + 'Sub').setAttribute('color', '#c80');
+							document.querySelector('#p' + (i + 1) + 'Rename').setAttribute('color', '#00f');
+							document.querySelector('#p' + (i + 1) + 'Kick').setAttribute('color', '#f00');
 							if (!playerBuzzedIn) {
 								setPanelLight(i, true);
 							}
@@ -614,6 +620,10 @@
 							document.querySelector('#p' + (i + 1) + 'Name').setAttribute('n-text', 'text', '');
 							document.querySelector('#p' + (i + 1) + 'Score').setAttribute('n-text', 'text', '');
 							document.querySelector('#p' + (i + 1) + 'ControlPanel').setAttribute('n-text', 'text', '<color=#888>Not joined');
+							document.querySelector('#p' + (i + 1) + 'Add').setAttribute('color', '#060');
+							document.querySelector('#p' + (i + 1) + 'Sub').setAttribute('color', '#840');
+							document.querySelector('#p' + (i + 1) + 'Rename').setAttribute('color', '#006');
+							document.querySelector('#p' + (i + 1) + 'Kick').setAttribute('color', '#600');
 							if (settings.manualJoin) {
 								document.querySelector('#p' + (i + 1) + 'Join').setAttribute('position', '0 2 0');
 							}
@@ -621,7 +631,7 @@
 						}
 						if (players[i].id == user.userId) {
 							joined = i + 1;
-							if (!checkedSpace) {
+							if (!checkedSpace && !isActivity) {
 								if (hasHost) {
 									altspace.getSpace().then(function(space){
 										if (space.sid != hostUser.space) {
