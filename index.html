@@ -27,7 +27,7 @@
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v0.57'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v0.58'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
@@ -156,14 +156,12 @@
 					<a-plane id='p2Kick' class='kickButton' position='0 .03 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-box-collider></a-plane>
 					<a-plane id='p1Kick' class='kickButton' position='0 -.01 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-box-collider></a-plane>
 
-					<!-- <a-entity position='-.15 .07 .012' scale='.015 .015 .015' n-text='text: <line-height=222%><b><color=black>+1\n+1\n+1\n+1\n+1'></a-entity> -->
 					<a-plane id='p5Add' class='addButton' position='-.15 .15 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Add' n-box-collider></a-plane>
 					<a-plane id='p4Add' class='addButton' position='-.15 .11 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-box-collider></a-plane>
 					<a-plane id='p3Add' class='addButton' position='-.15 .07 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-box-collider></a-plane>
 					<a-plane id='p2Add' class='addButton' position='-.15 .03 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-box-collider></a-plane>
 					<a-plane id='p1Add' class='addButton' position='-.15 -.01 .011' scale='.025 .025 .01' src='textures/plusButton.png' transparent='true' color='#0c0' n-box-collider></a-plane>
 
-					<!-- <a-entity position='-.1 .07 .012' scale='.015 .015 .015' n-text='text: <line-height=222%><b><color=black>-1\n-1\n-1\n-1\n-1'></a-entity> -->
 					<a-plane id='p5Sub' class='subtractButton' position='-.1 .15 .011' scale='.025 .025 .01' src='textures/minusButton.png' transparent='true' color='#b70' n-text='fontSize: 5; verticalAlign: top; height: 3; text: Sub' n-box-collider></a-plane>
 					<a-plane id='p4Sub' class='subtractButton' position='-.1 .11 .011' scale='.025 .025 .01' src='textures/minusButton.png' transparent='true' color='#b70' n-box-collider></a-plane>
 					<a-plane id='p3Sub' class='subtractButton' position='-.1 .07 .011' scale='.025 .025 .01' src='textures/minusButton.png' transparent='true' color='#b70' n-box-collider></a-plane>
@@ -204,7 +202,7 @@
 				<a-plane id='hostB' position='.19 .12 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-text='fontSize: 5; horizontalAlign: left; width: 5; text: Leave' n-box-collider></a-plane>
 
 				<a-entity position='.16 .03 .011' scale='1.5 1.5 1'>
-					<a-entity position='0 .03 0' scale='.01 .01 .01' n-text='text: End Game Timer'></a-entity>
+					<a-entity position='0 .03 0' scale='.01 .01 .01' n-text='text: Game End Timer'></a-entity>
 					<a-entity id='timeText' scale='.02 .02 .02' n-text='text: 00:00'></a-entity>
 					<a-cylinder id='timerHourUp' position='-.04 .01 0' rotation='-90 0 0' scale='.01 .001 .008' color='green' segments-radial='3' segments-height='1' n-box-collider></a-cylinder>
 					<a-cylinder id='timerHourDown' position='-.04 -.01 0' rotation='90 0 0' scale='.01 .001 .008' color='red' segments-radial='3' segments-height='1' n-box-collider></a-cylinder>
@@ -1387,7 +1385,11 @@
 			  	var preTemp = {};
 
 			  	function pregameQGet(amm,diff) {
-			  		dataRequest.load('https://opentdb.com/api.php?amount=' + amm + '&difficulty=' + diff + '&type=multiple&encode=url3986&token=' + token + '&' + Math.random().toString(), function(obj){
+						var d = diff;
+						if (diff == "easy") {
+							d += "&category=9";
+						}
+			  		dataRequest.load('https://opentdb.com/api.php?amount=' + amm + '&difficulty=' + d + '&type=multiple&encode=url3986&token=' + token + '&' + Math.random().toString(), function(obj){
 							var data = JSON.parse(obj);
 							decode(data);
 			  			sortAnswers(data.results);
