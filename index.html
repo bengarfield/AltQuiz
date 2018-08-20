@@ -1957,7 +1957,6 @@
 						sync.instance.child('host').set({displayName: user.displayName, userId: user.userId, space: space.sid});
 					});
 					if (!questionsLoaded) {
-		  			//console.log('loadQuestions');
 		  			if(!loadingQuestions) {
 			  			getAllQuestions();
 			  		}
@@ -1966,7 +1965,6 @@
 					if (mode == 'winner') {
 						endGame();
 					} else if (!questionsLoaded) {
-		  			//console.log('loadQuestions');
 		  			if(!loadingQuestions) {
 			  			getAllQuestions();
 			  		}
@@ -1974,15 +1972,11 @@
 		  			if (anyPlayers()) {
 							if(answered && current == 4 && mode == 'question') {
 								if (finalRound) {
-									//console.log('end game');
 									endGame();
 								} else {
-									//console.log('show scores');
 									showScores();
 								}
 							} else {
-
-								//console.log('go to gategory selection');
 								if (round == 0 && !players[4].joined && !firstPlayer) {
 									sync.instance.child('lastToChoose').set(getNextPlayer(lastPlayer));
 									firstPlayer = true;
@@ -1994,19 +1988,14 @@
 									categorySelect(true);
 								}
 							}
-						} else if (!countdownStarted) {
-							//console.log('start pregame');
+						} else if (!countdownStarted && !isActivity) {
 							startPregameCountdown();
-							//startPregame();
 						}
 		  		} else if ((mode == 'category' && !answered) || mode == 'question' && !answered && ((playerBuzzedIn != null && selected != null) || (playerBuzzedIn == null && selected == null))) {
-		  			//console.log('answer question');
 		  			answerQuestion();
 		  		} else if (mode == 'pregame' && (current == 9 || remainingPlayers < 6)) {
-						//console.log('end pregame');
 						endPregame();
 					} else if ((answered && current < 4) || (mode == 'category' && selected != null) || (mode == 'pregame' && current < 9 && screenState == 2)) {
-		  			//console.log('go to next question');
 		  			nextQuestion();
 		  		}
 		  	}
@@ -2014,8 +2003,6 @@
 		  });
 
 			function updateButtonText() {
-				//var str = '<color=#080><b>O </b></color>';
-				//var str = '<size=75%>Press <color=#080>O</color> to ';
 				var str = '';
 				if (!hasHost) {
 					str += 'Click to Host';
@@ -2044,7 +2031,7 @@
 								str += 'Next Round';
 							}
 						}
-					} else {
+					} else if (!isActivity) {
 						str += 'Start Player Selection';
 					}
 				} else if ((mode == 'category' && !answered) || mode == 'question' && !answered && ((playerBuzzedIn != null && selected != null) || (playerBuzzedIn == null && selected == null))) {
