@@ -2298,6 +2298,7 @@
 				}
 
 				function showScores() {
+					sync.instance.child('buzz').set(null);
 					sync.instance.child('answered').set(false);
 					sync.instance.child('mode').set('scores');
 					sync.instance.child('screenState').set(3);
