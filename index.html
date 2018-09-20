@@ -595,7 +595,7 @@
 						h1Join.setAttribute('position', '0 2 0');
 					}
 					if (joined == 0) {
-						if (colliders.getAttribute('n-mesh-collider') != null) {
+						if (colliders.getAttribute('n-mesh-collider') != null && !isMod) {
 							teleportToAudience();
 						}
 						colliders.removeAttribute('n-mesh-collider');
@@ -723,7 +723,7 @@
 							document.querySelector('#p' + i + 'Join').setAttribute('position', '0 -.5 0');
 						}
 					} else if (!isHost) {
-						if (colliders.getAttribute('n-mesh-collider') != null) {
+						if (colliders.getAttribute('n-mesh-collider') != null && !isMod) {
 							teleportToAudience();
 						}
 						colliders.removeAttribute('n-mesh-collider');
