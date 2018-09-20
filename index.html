@@ -27,7 +27,7 @@
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v0.60'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v0.65'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
@@ -354,6 +354,8 @@
 		<a-entity id='audienceTarget' position='0 2 6.5' rotation='0 180 0'></a-entity>
 		<a-entity id='trapdoorPortal' position='0 -100 0' n-portal='targetEntity: #audienceTarget' n-skeleton-parent='part: head'></a-entity>
 
+		<a-box id='stageTeleporter' position='0 1.5 1.5' scale='12 3 5' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+
 		<a-mixin id='winnerCrown' position='0 .1 .015' scale='.11 .11 .11' rotation='0 180 0' obj-model='obj: models/crown.obj; mtl: models/crown.mtl' collapse-model></a-mixin>
 
 		<a-mixin id='s-series-m01' position='0 .1 .015' scale='.11 .11 .11'></a-mixin>
@@ -593,6 +595,9 @@
 						h1Join.setAttribute('position', '0 2 0');
 					}
 					if (joined == 0) {
+						if (colliders.getAttribute('n-mesh-collider') != null) {
+							teleportToAudience();
+						}
 						colliders.removeAttribute('n-mesh-collider');
 					}
 				}
@@ -718,6 +723,9 @@
 							document.querySelector('#p' + i + 'Join').setAttribute('position', '0 -.5 0');
 						}
 					} else if (!isHost) {
+						if (colliders.getAttribute('n-mesh-collider') != null) {
+							teleportToAudience();
+						}
 						colliders.removeAttribute('n-mesh-collider');
 					}
 				} else {
@@ -2403,12 +2411,27 @@
 				}));
 
 				trapdoorBox.object3D.addEventListener('jointcollisionenter', function(e){
+					teleportToAudience();
+				});
+
+				stageTeleporter.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+					joints: [['Head','Center',0]],
+					jointCubeSize: .01
+				}));
+
+				stageTeleporter.object3D.addEventListener('jointcollisionenter', function(e){
+					if (joined == 0 && !isHost && !isMod) {
+						teleportToAudience();
+					}
+				});
+
+				function teleportToAudience() {
 					trapdoorPortal.setAttribute('position', '0 0 0');
 
 					setTimeout(function(){
 						trapdoorPortal.setAttribute('position', '0 -100 0');
 					}, 100);
-				});
+				}
 				
 			}
 	  });
