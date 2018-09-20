@@ -17,7 +17,7 @@
 <body>
 		<input id='nameField' class='center'>
 <script>
-	altspace.utilities.sync.connect({baseRefUrl: "https://altvr-apps.firebaseio.com/",authorId: "BenG",appId: "quizStage"}).then(function(sync){
+	altspace.utilities.sync.connect({baseRefUrl: "https://altvr-apps.firebaseio.com/",authorId: "BenG",appId: "AltQuiz"}).then(function(sync){
 		var p = findGetParameter('player');
 		
 		sync.instance.child('players').child(p).child('displayName').on('value', function(data){
