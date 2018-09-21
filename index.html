@@ -41,13 +41,13 @@
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.00'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.01'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
 					<a-entity id='titleScreen' position='0 0 0'>
 						<!-- <a-entity position='0 0 .1' scale='2 2 2' n-text='text: Logo\ngoes here'></a-entity> -->
-						<a-entity position='0 0 -.01' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz"></a-entity>
+						<!-- <a-entity position='0 0 -.01' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz"></a-entity> -->
 						<!-- <a-entity position='0 0 .01' scale='2 2 2' n-text="width: 2.8; text: <line-height=65%><align=left>Alt\n<line-height=35%><align=right>Quiz\n<align=center><size=30%>It's a quiz"></a-entity> -->
 						<a-plane position='0 0 .01' scale='12 6 1' src='textures/logo.png' transparent='true'></a-plane>
 					</a-entity>
@@ -407,12 +407,12 @@
     altspace.getSpace(),
   ]).then(function(results){
 		var user = results[0];
-		var isMod = user.isModerator;
+		var isMod = (user.isModerator || user.userId == 'fv9tBAsC4mxoI2ROTJfgnwRYnULP3RR7eH_lkGAsRU0');
 		var space = results[1];
 		var loader = new THREE.OBJLoader();
 
 		var inPlayground = false;
-		if (space.templateSid.includes('playground')) {
+		if (space.templateSid.includes('playground') || space.templateSid.includes('altquiz')) {
 			inPlayground = true;
 			setupPlaygroundExtras();
 		}
