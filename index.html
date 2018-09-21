@@ -1065,6 +1065,10 @@
 								hasCrown = true;
 							} else if (winner.id != user.userId && joined != 0 && settings.endGameKick) {
 								//removeStageCollision
+								if (inPlayground) {
+									stageTeleporter.object3D.position.y = 0;
+									stageFloor.object3D.position.y = -1;
+								}
 								colliders.removeAttribute('n-mesh-collider');
 							}
 						}
