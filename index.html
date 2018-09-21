@@ -7,8 +7,22 @@
 </head>
 <body>
 	<a-scene position='0 0 0' altspace='fullspace: true' sync-system='author: BenG; app: AltQuiz; refUrl: https://altvr-apps.firebaseio.com/'>
-		<!-- <a-entity n-layout-browser='url: https://shanesedit.org/r/mc; isEnclosure: true'></a-entity> -->
 		<a-sky id='sky' radius='500' src='textures/sky.png'></a-sky>
+
+		<a-entity id='audienceStand' position='0 0.75 0' scale='1 0.7 1' n-mesh-collider='type: environment; convex: false'></a-entity>
+		<a-entity id='playgroundExtras' position='0 -100 0'>
+			<a-plane position='0 .001 0' rotation='-90 0 0' scale='1000 1000 1' material='visible: false'></a-plane>
+			<a-entity id='stageTeleporter'>
+				<a-box position='0 1.5 1.25' scale='12 3 4.5' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+			</a-entity>
+			<a-entity id='stageFloor'>
+				<a-plane position='0 .002 1.5' scale='12 5.5 1' rotation='-90 0 0' material='visible: false' n-mesh-collider='type: environment'></a-plane>
+			</a-entity>
+			<a-box id='audienceCage1' position='0 2.5 61' scale='300 5 100' material='visible: false'></a-box>
+			<a-box id='audienceCage2' position='0 2.5 -52' scale='300 5 100' material='visible: false'></a-box>
+			<a-box id='audienceCage3' position='59 2.5 0' scale='100 5 300' material='visible: false'></a-box>
+			<a-box id='audienceCage4' position='-59 2.5 0' scale='100 5 300' material='visible: false'></a-box>
+		</a-entity>
 
 		<a-entity id='colliders' altspace-cursor-collider='enabled: false'>
 			<a-plane position='0 0 1.5' scale='12 5.5 0' rotation='-90 0 0' material='visible: false'></a-plane>
@@ -27,7 +41,7 @@
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v0.65'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.00'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
@@ -354,8 +368,6 @@
 		<a-entity id='audienceTarget' position='0 2 6.5' rotation='0 180 0'></a-entity>
 		<a-entity id='trapdoorPortal' position='0 -100 0' n-portal='targetEntity: #audienceTarget' n-skeleton-parent='part: head'></a-entity>
 
-		<a-box id='stageTeleporter' position='0 1.5 1.5' scale='12 3 5' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
-
 		<a-mixin id='winnerCrown' position='0 .1 .015' scale='.11 .11 .11' rotation='0 180 0' obj-model='obj: models/crown.obj; mtl: models/crown.mtl' collapse-model></a-mixin>
 
 		<a-mixin id='s-series-m01' position='0 .1 .015' scale='.11 .11 .11'></a-mixin>
@@ -390,8 +402,56 @@
 	var categories = [{id:9,name:'General Knowledge'},{id:10,name:'Books'},{id:11,name:'Film'},{id:12,name:'Music'},{id:13,name:'Musicals & Theatres'},{id:14,name:'Television'},{id:15,name:'Video Games'},{id:16,name:'Board Games'},{id:17,name:'Science & Nature'},{id:18,name:'Computers'},{id:19,name:'Mathematics'},{id:20,name:'Mythology'},{id:21,name:'Sports'},{id:22,name:'Geography'},{id:23,name:'History'},{id:24,name:'Politics'},{id:25,name:'Art'},{id:26,name:'Celebrities'},{id:27,name:'Animals'},{id:28,name:'Vehicles'},{id:29,name:'Comics'},{id:30,name:'Gadgets'},{id:31,name:'Japanese Anime & Manga'},{id:32,name:'Cartoon & Animations'}];
 	var podiumList = [];
 
-	altspace.getUser().then(function(user){
+	Promise.all([
+    altspace.getUser(),
+    altspace.getSpace(),
+  ]).then(function(results){
+		var user = results[0];
+		var isMod = user.isModerator;
+		var space = results[1];
 		var loader = new THREE.OBJLoader();
+
+		var inPlayground = false;
+		if (space.templateSid.includes('playground')) {
+			inPlayground = true;
+			setupPlaygroundExtras();
+		}
+
+		function setupPlaygroundExtras() {
+			loader.load('models/audience.obj', audienceLoad, undefined, undefined);
+			
+			if (!isMod) {
+				[audienceCage1,audienceCage2,audienceCage3,audienceCage4].forEach(function(a){
+					a.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+						joints: [['Head','Center',0]],
+						jointCubeSize: .01
+					}));
+					a.object3D.addEventListener('jointcollisionenter', function(e){
+							teleportToAudience();
+					});
+				});
+
+				stageTeleporter.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+					joints: [['Head','Center',0]],
+					jointCubeSize: .01
+				}));
+				stageTeleporter.object3D.addEventListener('jointcollisionenter', function(e){
+						teleportToAudience();
+				});
+				
+				stageFloor.object3D.position.y = -1;
+				playgroundExtras.object3D.position.y = 0;
+			}
+		}
+
+		function teleportToAudience() {
+			trapdoorPortal.setAttribute('position', '0 0 0');
+
+			setTimeout(function(){
+				trapdoorPortal.setAttribute('position', '0 -100 0');
+			}, 100);
+		}
+
 		loader.load('models/podiumTall.obj', podiumLoad, undefined, undefined);
 		loader.load('models/hostPodium2.obj', hostPodiumLoad, undefined, undefined);
 		loader.load('models/stage2.obj', stageLoad, undefined, undefined);
@@ -401,6 +461,14 @@
 
 		var modelsLoaded = 0;
 		
+		function audienceLoad(obj) {			
+			obj.getObjectByName('audienceBase').material = new THREE.MeshBasicMaterial({color: 0x001234, transparent: true, opacity: 0.2, side: THREE.DoubleSide});
+			obj.getObjectByName('audienceWall').material = new THREE.MeshBasicMaterial({visible: false});
+
+			audienceStand.setObject3D('mesh', obj);
+			audienceStand.emit('model-loaded', {format: 'obj', model: obj});
+		}
+
 		function buttonLoad(obj) {
 			obj.scale.setScalar(2);
 			obj.position.set(0,0,0);
@@ -439,8 +507,6 @@
 		}
 
 		function stageLoad(obj) {			
-			// obj.scale.set(1.5183,1,1);
-
 			var stage = new THREE.Color(.15,0,.3);
 
 			obj.getObjectByName('stage').material = new THREE.MeshBasicMaterial({color: stage, map: new THREE.TextureLoader().load('models/stage3.png')});
@@ -541,6 +607,7 @@
 		var grey = new THREE.Color(.6,.6,.6);
 
 		function start() {
+			console.log('inPlayground', inPlayground);
 			function setPanelLight(p,on) {
 				var panel = podiumList[p].getObjectByName('panels').material;
 				if (on) {
@@ -550,10 +617,7 @@
 				}
 			}
 
-
-  		var isMod = user.isModerator;
   		var isHost = false;
-
   		var hasHost = false;
 			var hostUser;
   		sync.instance.child('host').on('value', function(data){
@@ -568,6 +632,10 @@
 						isHost = true;
 						console.log('You are host!');
 						colliders.setAttribute('n-mesh-collider', 'type: environment; convex: false');
+						if (inPlayground) {
+							stageTeleporter.object3D.position.y = -10;
+							stageFloor.object3D.position.y = 0;
+						}
 						altspace.getSpace().then(function(space){
 							sync.instance.child('host').child('space').set(space.sid);
 						});
@@ -595,8 +663,9 @@
 						h1Join.setAttribute('position', '0 2 0');
 					}
 					if (joined == 0) {
-						if (colliders.getAttribute('n-mesh-collider') != null && !isMod) {
-							teleportToAudience();
+						if (inPlayground) {
+							stageTeleporter.object3D.position.y = 0;
+							stageFloor.object3D.position.y = -1;
 						}
 						colliders.removeAttribute('n-mesh-collider');
 					}
@@ -719,6 +788,10 @@
 					}
 					if (joined != 0) {
 						colliders.setAttribute('n-mesh-collider', 'type: environment; convex: false');
+						if (inPlayground) {
+							stageTeleporter.object3D.position.y = -10;
+							stageFloor.object3D.position.y = 0;
+						}
 						for (var i = 1; i < 6; i++) {
 							document.querySelector('#p' + i + 'Join').setAttribute('position', '0 -.5 0');
 						}
@@ -727,6 +800,10 @@
 							teleportToAudience();
 						}
 						colliders.removeAttribute('n-mesh-collider');
+						if (inPlayground) {
+							stageTeleporter.object3D.position.y = 0;
+							stageFloor.object3D.position.y = -1;
+						}
 					}
 				} else {
 					sync.instance.child('players').set([{joined: false},{joined: false},{joined: false},{joined: false},{joined: false}]);
@@ -2413,26 +2490,6 @@
 				trapdoorBox.object3D.addEventListener('jointcollisionenter', function(e){
 					teleportToAudience();
 				});
-
-				stageTeleporter.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
-					joints: [['Head','Center',0]],
-					jointCubeSize: .01
-				}));
-
-				stageTeleporter.object3D.addEventListener('jointcollisionenter', function(e){
-					if (joined == 0 && !isHost && !isMod) {
-						teleportToAudience();
-					}
-				});
-
-				function teleportToAudience() {
-					trapdoorPortal.setAttribute('position', '0 0 0');
-
-					setTimeout(function(){
-						trapdoorPortal.setAttribute('position', '0 -100 0');
-					}, 100);
-				}
-				
 			}
 	  });
   });
