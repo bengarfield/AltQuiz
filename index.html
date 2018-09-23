@@ -7,6 +7,15 @@
 </head>
 <body>
 	<a-scene position='0 0 0' altspace='fullspace: true' sync-system='author: BenG; app: AltQuiz; refUrl: https://altvr-apps.firebaseio.com/'>
+		<a-entity id='audienceTarget1' position='0 1.3 6.5' rotation='0 180 0'></a-entity>
+		<a-entity id='audienceTarget2' position='3 1.3 6.5' rotation='0 200 0'></a-entity>
+		<a-entity id='audienceTarget3' position='-3 1.3 6.5' rotation='0 160 0'></a-entity>
+		<a-entity id='audienceTarget4' position='4.5 2.1 8.5' rotation='0 210 0'></a-entity>
+		<a-entity id='audienceTarget5' position='1.5 2.1 9' rotation='0 180 0'></a-entity>
+		<a-entity id='audienceTarget6' position='-1.5 2.1 9' rotation='0 180 0'></a-entity>
+		<a-entity id='audienceTarget7' position='-4.5 2.1 8.5' rotation='0 150 0'></a-entity>
+		<a-entity id='playerPortal' position='0 -100 0' scale='.01 .01 .01' n-portal='targetEntity: #audienceTarget1' n-skeleton-parent='part: head'></a-entity>
+
 		<a-sky id='sky' radius='500' src='textures/sky.png'></a-sky>
 
 		<a-entity id='audienceStand' position='0 0.75 0' scale='1 0.7 1' n-mesh-collider='type: environment; convex: false'></a-entity>
@@ -41,7 +50,7 @@
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.04'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.05'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
@@ -364,17 +373,6 @@
 
 		<a-box id='trapdoorBox' position='0 -10 0' scale='25 1 25' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
 
-		<a-entity id='audienceTarget' position='0 1.3 6.5' rotation='0 180 0'></a-entity>
-		<a-entity id='audienceTarget2' position='3 1.3 6.5' rotation='0 200 0'></a-entity>
-		<a-entity id='audienceTarget3' position='-3 1.3 6.5' rotation='0 160 0'></a-entity>
-
-		<a-entity id='audienceTarget4' position='4.5 2.1 8.5' rotation='0 210 0'></a-entity>
-		<a-entity id='audienceTarget5' position='1.5 2.1 9' rotation='0 180 0'></a-entity>
-		<a-entity id='audienceTarget6' position='-1.5 2.1 9' rotation='0 180 0'></a-entity>
-		<a-entity id='audienceTarget7' position='-4.5 2.1 8.5' rotation='0 150 0'></a-entity>
-
-		<a-entity id='trapdoorPortal' position='0 -100 0' n-portal='targetEntity: #audienceTarget' n-skeleton-parent='part: head'></a-entity>
-
 		<a-mixin id='winnerCrown' position='0 .1 .015' scale='.11 .11 .11' rotation='0 180 0' obj-model='obj: models/crown.obj; mtl: models/crown.mtl' collapse-model></a-mixin>
 
 		<a-mixin id='s-series-m01' position='0 .1 .015' scale='.11 .11 .11'></a-mixin>
@@ -451,17 +449,17 @@
 			}
 		}
 		
-		var targets = ['#audienceTarget','#audienceTarget2','#audienceTarget3','#audienceTarget4','#audienceTarget5','#audienceTarget6','#audienceTarget7'];
+		var targets = ['#audienceTarget1','#audienceTarget2','#audienceTarget3','#audienceTarget4','#audienceTarget5','#audienceTarget6','#audienceTarget7'];
 
 		function teleportToAudience() {
 			var i = Math.floor(Math.random() * targets.length)
-			trapdoorPortal.setAttribute('n-portal', 'targetEntity',targets[i]);
+			playerPortal.setAttribute('n-portal', 'targetEntity',targets[i]);
 
-			trapdoorPortal.setAttribute('position', '0 0 0');
+			playerPortal.setAttribute('position', '0 0 0');
 
 			setTimeout(function(){
-				trapdoorPortal.setAttribute('position', '0 -100 0');
-			}, 100);
+				playerPortal.setAttribute('position', '0 -100 0');
+			}, 2000);
 		}
 
 		loader.load('models/podiumTall.obj', podiumLoad, undefined, undefined);
