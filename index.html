@@ -50,7 +50,7 @@
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.05'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.06'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
@@ -459,7 +459,7 @@
 
 			setTimeout(function(){
 				playerPortal.setAttribute('position', '0 -100 0');
-			}, 2000);
+			}, 1000);
 		}
 
 		loader.load('models/podiumTall.obj', podiumLoad, undefined, undefined);
@@ -1402,7 +1402,7 @@
 		  function moveScreen(i) {
 		  	screenPos = i;
 		  	var a = [{pos:{x:0,y:0,z:1.2}, scale:{x:1,y:1,z:1}, rot:{x:0,y:0,z:0}}, 
-								{pos:{x:-1,y:0.1,z:-1}, scale:{x:0.35,y:0.35,z:0.35}, rot:{x:THREE.Math.degToRad(-20),y:THREE.Math.degToRad(-135),z:THREE.Math.degToRad(0)}}];
+								{pos:{x:-1,y:0.25,z:-1}, scale:{x:0.35,y:0.35,z:0.35}, rot:{x:THREE.Math.degToRad(-20),y:THREE.Math.degToRad(-135),z:THREE.Math.degToRad(0)}}];
 
 		  	new TWEEN.Tween(screenContainer.object3D.position).to(a[i].pos, 300).start();
 		  	new TWEEN.Tween(screenContainer.object3D.scale).to(a[i].scale, 300).start();
