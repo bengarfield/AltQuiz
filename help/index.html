@@ -3,8 +3,11 @@
 <head>
 	<title>AltQuiz Help</title>
 	<style>
-		body {
+		html,body {
 			font-family: Arial, Helvetica, sans-serif;
+			margin:0;
+			padding:0;
+			height:100%;
 		}
 
 		h2 {
@@ -59,102 +62,111 @@
 		a:active {
 			color: lightskyblue;
 		}
+
+		#container {
+			min-height:100%;
+			position:relative;
+		}
+		#body {
+			padding:10px;
+			padding-bottom:50px;   /* Height of the footer */
+		}
+		#footer {
+			position:absolute;
+			bottom:0;
+			width:100%;
+			height:45px;   /* Height of the footer */
+		}
 	</style>
 </head>
 <body style='background-color: black'>
-
-	<center><img src='../textures/logo.png' width='500px'></center>
-	<p></p>
-	<button class="accordion">Game Rules & Tips</button>
-	<div class="panel">
-		<button class="accordion">Game Rules</button>
-		<div class="panel">
-			<p>Five players compete for the best score in a game of trivia.<br>
-				Each round consists of five questions.<br>
-				At the start of each round, the player indicated by the color of the border on the screen gets to choose the category.<br>
-				Rounds 1-5 consist of easy difficulty questions, rounds 6-10 are medium difficulty, and rounds 11 and up are hard difficulty.<br>
-				Easy question award one point for a correct answer, medium question award two points, and hard questions award three points.<br>
-				Answering a question incorrectly deducts one point.<br>
-				Players buzz in either by clicking on their buzzer, or by hitting it with one of their hands.<br>
-				At the end of the game, the player with the highest score is crowned the winner.<br>
-				The game ends either when the game timer rings, when all of the available categories have been used, or when the host decides to end the game.</p>
-		</div>
-		<p></p>
-		<button class="accordion">Player Selection</button>
-		<div class="panel">
-			<p>(Only enabled in events.)<br><br>
-				In the player selection round, the audience answers questions of increasing difficulty until they are narrowed down to five players.<br>
-				Players have ten seconds to answer each question and answer by clicking on the answer of their choice on the big screen.<br>
-				If a player answers incorrectly or doesn't answer in time, they are out of the game and can not answer any more questions.<br>
-				Once the number of remaining players reaches five or less, the top five are displayed on the big screen and they are given access to the stage. They can then teleport onto the stage and get behind their podium.<br><br>
-				If one or more of the podiums are occupied before the game starts, the player selection round is skipped.</p>
-		</div>
-		<p></p>
-		<button class="accordion">Hosting Tips</button>
-		<div class="panel">
-			<p>Before the game starts, explain how the player selection round works to the audience.<br>
-				If a player has a name too long to fit on the podium, use the rename function on the control panel to shorten it.<br>
-				If at the end of the game, the scores are tied, consider adding one more round to get a clear winner.</p>
-		</div>
-	</div>
-	<p></p>
-	<button class="accordion">Host Controls<div style="float: right"></div></button>
-	<div class="panel">
-		<h2><img src='helpB.png' width='40px'> Help Button</h2>
-		<p style='margin-top: 0px; margin-left: 47px;'>Opens the page you are currently viewing.</p>
-		<h2><img src='nextB.png' width='40px'> Next Button</h2>
-		<p style='margin-top: 0px; margin-left: 47px;'>The 'Next' button performs most of the functions required to run the game. This includes starting the game, selecting a category, going to the next question, and revealing the correct answer. The next action is displayed in the label below the button.
-			<br>If the button is grayed out and there is no label below it, it means that the button is currently disabled until the next action becomes available. This happens when the questions are being loaded, or when a player has buzzed in but hasn't selected an answer yet.</p>
-		<h2><img src='resetB.png' width='40px'> Reset Buzzers Button</h2>
-		<p style='margin-top: 0px; margin-left: 47px;'>Resets the podium buzzers so that another player may buzz in. Use if a player has buzzed in accidentally or has buzzed in and changed their mind.</p>
-		<h2><img src='final.png' width='40px'> Final Round Indicator</h2>
-		<p style='margin-top: 0px; margin-left: 47px;'>When illuminated in yellow, the 'Final Round' indicator indicates that the current round is the last round of the game. This is either happens when running out of available categories, or when the game timer has ended.</p>
-		<h2><img src='controlB.png' width='40px'> Control Panel Button</h2>
-		<p style='margin-top: 0px; margin-left: 47px;'>Opens the host control panel for access to more settings and overrides. (more information below)</p>
-		<button class="accordion">Control Panel</button>
-		<div class="panel">
-			<img src="panel.jpg" style='display:block; margin-left:auto; margin-right:auto;' width='70%'>
-			<h2>Podium Controls</h2>
-			<p><b>Add/Sub:</b><br>
-				Manually add or subtract a point from the selected player.<br><br>
-				<b>Rename:</b><br>
-				Change the name of the selected player. If a player with a long display name is playing, you can use the rename button to shorten the name. (Tip: if a player with a guest account is playing, you can ask them for their real name or nickname and rename them.)<br><br>
-				<b>Kick:</b><br>
-				Remove the selected player from the game.</p>
-			<h2>Game End Timer</h2>
-			<p>The game end timer is used to automatically end a game when an event is scheduled to end. To use it, click the arrows to set the time to the event's scheduled end time, then click the 'Enable' button so it turns green. Five minutes before the end time, a bell will ring and the "Final Round" indicator will light up. Once that round has finished, the game will automatically end and the winner will be crowned.</p>
-			<h2>Game Options</h2>
-			<p><b>Manual join:</b><br>
-				Enable this to allow players to manually join the game by clicking a bubble above one of the podiums.<br>
-				(Can not be disabled in activities)<br><br>
-				<b>Host manual join:</b><br>
-				Add a manual join bubble above the host podium. Enable this if you want someone to host who doesn't already have stage access.<br>
-				(Can not be disabled in activities)<br><br>
-				<b>Game end kick:</b><br>
-				Enable this to remove all non-winners from the stage at the end of the game, leaving only the winner and the host on the stage. Non-winners will fall through the stage before being teleported back to the audience.</p>
-		</div>
-	</div>
-
-	<p></p>	
-<p style='color: white; margin: 18px;'>All questions provided by <a href='https://opentdb.com/'>Open Trivia Databse</a>.
-	<a href='https://altquiz-feedback.herokuapp.com'>Feedback & Suggestions.</a></p>
-	<button class="accordion" style='width: 20%; padding: 10px'>Changes</button>
-	<div class="panel">
-		<div id='changes'></div>
-	</div>
-	
-	
-
-	<!-- <table style="width:100%">
-		<tr>
-			<td><button class="accordion" style='width: 20%; padding: 10px'>Changes</button>
+	<div id='container'>
+		<div id='body'>
+			<center><img src='../textures/logo.png' width='500px'></center>
+			<p></p>
+			<button class="accordion">Game Rules & Tips</button>
+			<div class="panel">
+				<button class="accordion">Game Rules</button>
 				<div class="panel">
-					<div id='changes'></div>
-				</div></td>
-			<td><p style='color: white;'><a href='https://altquiz-feedback.herokuapp.com'>Feedback & Suggestions.</a></p></td>
-			<td><p style='color: white;'>All questions provided by <a href='https://opentdb.com/'>Open Trivia Databse</a>.</p></td>
-		</tr>
-	</table> -->
+					<p>Five players compete for the best score in a game of trivia.<br>
+						Each round consists of five questions.<br>
+						At the start of each round, the player indicated by the color of the border on the screen gets to choose the category.<br>
+						Rounds 1-5 consist of easy difficulty questions, rounds 6-10 are medium difficulty, and rounds 11 and up are hard difficulty.<br>
+						Easy question award one point for a correct answer, medium question award two points, and hard questions award three points.<br>
+						Answering a question incorrectly deducts one point.<br>
+						Players buzz in either by clicking on their buzzer, or by hitting it with one of their hands.<br>
+						At the end of the game, the player with the highest score is crowned the winner.<br>
+						The game ends either when the game timer rings, when all of the available categories have been used, or when the host decides to end the game.</p>
+				</div>
+				<p></p>
+				<button class="accordion">Player Selection</button>
+				<div class="panel">
+					<p>(Only enabled in events.)<br><br>
+						In the player selection round, the audience answers questions of increasing difficulty until they are narrowed down to five players.<br>
+						Players have ten seconds to answer each question and answer by clicking on the answer of their choice on the big screen.<br>
+						If a player answers incorrectly or doesn't answer in time, they are out of the game and can not answer any more questions.<br>
+						Once the number of remaining players reaches five or less, the top five are displayed on the big screen and they are given access to the stage. They can then teleport onto the stage and get behind their podium.<br><br>
+						If one or more of the podiums are occupied before the game starts, the player selection round is skipped.</p>
+				</div>
+				<p></p>
+				<button class="accordion">Hosting Tips</button>
+				<div class="panel">
+					<p>Before the game starts, explain how the player selection round works to the audience.<br>
+						If a player has a name too long to fit on the podium, use the rename function on the control panel to shorten it.<br>
+						If at the end of the game, the scores are tied, consider adding one more round to get a clear winner.</p>
+				</div>
+			</div>
+			<p></p>
+			<button class="accordion">Host Controls<div style="float: right"></div></button>
+			<div class="panel">
+				<h2><img src='helpB.png' width='40px'> Help Button</h2>
+				<p style='margin-top: 0px; margin-left: 47px;'>Opens the page you are currently viewing.</p>
+				<h2><img src='nextB.png' width='40px'> Next Button</h2>
+				<p style='margin-top: 0px; margin-left: 47px;'>The 'Next' button performs most of the functions required to run the game. This includes starting the game, selecting a category, going to the next question, and revealing the correct answer. The next action is displayed in the label below the button.
+					<br>If the button is grayed out and there is no label below it, it means that the button is currently disabled until the next action becomes available. This happens when the questions are being loaded, or when a player has buzzed in but hasn't selected an answer yet.</p>
+				<h2><img src='resetB.png' width='40px'> Reset Buzzers Button</h2>
+				<p style='margin-top: 0px; margin-left: 47px;'>Resets the podium buzzers so that another player may buzz in. Use if a player has buzzed in accidentally or has buzzed in and changed their mind.</p>
+				<h2><img src='final.png' width='40px'> Final Round Indicator</h2>
+				<p style='margin-top: 0px; margin-left: 47px;'>When illuminated in yellow, the 'Final Round' indicator indicates that the current round is the last round of the game. This is either happens when running out of available categories, or when the game timer has ended.</p>
+				<h2><img src='controlB.png' width='40px'> Control Panel Button</h2>
+				<p style='margin-top: 0px; margin-left: 47px;'>Opens the host control panel for access to more settings and overrides. (more information below)</p>
+				<button class="accordion">Control Panel</button>
+				<div class="panel">
+					<img src="panel.jpg" style='display:block; margin-left:auto; margin-right:auto;' width='70%'>
+					<h2>Podium Controls</h2>
+					<p><b>Add/Sub:</b><br>
+						Manually add or subtract a point from the selected player.<br><br>
+						<b>Rename:</b><br>
+						Change the name of the selected player. If a player with a long display name is playing, you can use the rename button to shorten the name. (Tip: if a player with a guest account is playing, you can ask them for their real name or nickname and rename them.)<br><br>
+						<b>Kick:</b><br>
+						Remove the selected player from the game.</p>
+					<h2>Game End Timer</h2>
+					<p>The game end timer is used to automatically end a game when an event is scheduled to end. To use it, click the arrows to set the time to the event's scheduled end time, then click the 'Enable' button so it turns green. Five minutes before the end time, a bell will ring and the "Final Round" indicator will light up. Once that round has finished, the game will automatically end and the winner will be crowned.</p>
+					<h2>Game Options</h2>
+					<p><b>Manual join:</b><br>
+						Enable this to allow players to manually join the game by clicking a bubble above one of the podiums.<br>
+						(Can not be disabled in activities)<br><br>
+						<b>Host manual join:</b><br>
+						Add a manual join bubble above the host podium. Enable this if you want someone to host who doesn't already have stage access.<br>
+						(Can not be disabled in activities)<br><br>
+						<b>Game end kick:</b><br>
+						Enable this to remove all non-winners from the stage at the end of the game, leaving only the winner and the host on the stage. Non-winners will fall through the stage before being teleported back to the audience.</p>
+				</div>
+			</div>
+
+			<p></p>	
+			<p style='color: white; margin: 18px;'>All questions provided by <a href='https://opentdb.com/'>Open Trivia Databse</a>.
+			<a href='https://altquiz-feedback.herokuapp.com'>Feedback & Suggestions.</a></p>
+			<button class="accordion" style='width: 20%; padding: 10px'>Changes</button>
+			<div class="panel">
+				<div id='changes'></div>
+			</div>
+		</div>
+
+		<div id='footer'>
+			<center><img src='ben.png' width='45px'></center>
+		</div>
+	</div>
 <script>
 var acc = document.getElementsByClassName("accordion");
 for (var i = 0; i < acc.length; i++) {

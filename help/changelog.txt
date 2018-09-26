@@ -1,21 +1,24 @@
-1.06
+1.0.7
+- Minor fixes.
+
+1.0.6
 - Raised screen slightly to make bottom answers easier to read for contestants.
 
-1.05
+1.0.5
 - Fixed some issues with teleporting players to the audience area when the app loads.
 
-1.04
+1.0.4
 - Fixed the end game kick option.
 
-1.03
+1.0.3
 - Added 7 spawn points to the audience area to spread players out when joining the room.
 
-1.02
+1.0.2
 - Minor fixes.
 
-1.01
+1.0.1
 - Minor fixes.
 
-1.00
+1.0.0
 - Initial release
 - Added audience area and stage blocking to the SDK Playground space.
