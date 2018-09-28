@@ -190,6 +190,10 @@ changeText.onreadystatechange = function() {
   }
 }
 changeText.send();
+
+var feedbackStart = new XMLHttpRequest();
+feedbackStart.open('GET', 'https://altquiz-feedback.herokuapp.com/start', true);
+feedbackStart.send();
 </script>
 </body>
 </html>
