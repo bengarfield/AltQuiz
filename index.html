@@ -50,7 +50,7 @@
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.0.7'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.1.0'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
@@ -126,14 +126,14 @@
 
 				<a-cylinder id='controlB' position='5.5 -8.5 0' rotation='90 0 0' scale='.85 .2 .85' color='#00a' segments-height='1' n-mesh-collider></a-cylinder>
 				<a-plane position='5.5 -8.5 0.11' scale='1.2 1.2 1' src='textures/gear.png' transparent='true' altspace-cursor-collider='enabled: false'></a-plane>
-				<a-entity id='controlPopup' position='5.5 -7 -1' rotation='20 0 0'>
+				<a-entity id='controlPopup' position='5.5 -7 0.2' rotation='20 0 0'>
 					<a-plane scale='3.2 1 1' rotation='0 0 0' color='black' opacity='.8' altspace-cursor-collider='enabled: false'></a-plane>
 					<a-entity position='0 0 .05' n-text='fontSize: 4; text: Control Panel'></a-entity>
 				</a-entity>
 
 				<a-cylinder id='resetB' position='-5.5 -8.5 0' rotation='90 0 0' scale='.85 .2 .85' color='#770' segments-height='1' n-mesh-collider></a-cylinder>
 				<a-plane position='-5.5 -8.5 0.11' scale='1.3 1.3 1' src='textures/reset.png' transparent='true' altspace-cursor-collider='enabled: false'></a-plane>
-				<a-entity id='resetPopup' position='-5.5 -7 -1' rotation='20 0 0'>
+				<a-entity id='resetPopup' position='-5.5 -7 0.2' rotation='20 0 0'>
 					<a-plane scale='3.25 1 1' rotation='0 0 0' color='black' opacity='.8' altspace-cursor-collider='enabled: false'></a-plane>
 					<a-entity position='0 0 .05' n-text='fontSize: 4; text: Reset Buzzers'></a-entity>
 				</a-entity>
@@ -141,7 +141,7 @@
 
 				<a-cylinder id='helpB' position='-8 -5.75 0' rotation='90 0 0' scale='.5 .2 .5' color='#800' segments-height='1' n-mesh-collider></a-cylinder>
 				<a-entity position='-8 -5.75 .11' scale='.6 .6 1' n-text='text: <b>?'></a-entity>
-				<a-entity id='helpPopup' position='-8 -4.6 -1' rotation='20 0 0'>
+				<a-entity id='helpPopup' position='-8 -4.6 0.2' rotation='20 0 0'>
 					<a-plane scale='1.8 1 1' rotation='0 0 0' color='black' opacity='.8' altspace-cursor-collider='enabled: false'></a-plane>
 					<a-entity position='0 0 .05' n-text='fontSize: 4; text: Help'></a-entity>
 				</a-entity>
@@ -221,7 +221,7 @@
 				<a-entity id='hostText' position='.15 .16 .011' scale='.015 .015 1' n-text='text: Current Host:\nNot Joined'></a-entity>
 				<a-plane id='hostB' position='.19 .12 .011' scale='.025 .025 .01' src='textures/button.png' transparent='true' color='red' n-text='fontSize: 5; horizontalAlign: left; width: 5; text: Leave' n-box-collider></a-plane>
 
-				<a-entity position='.16 .03 .011' scale='1.5 1.5 1'>
+				<a-entity position='.16 .045 .011' scale='1.5 1.5 1'>
 					<a-entity position='0 .03 0' scale='.01 .01 .01' n-text='text: Game End Timer'></a-entity>
 					<a-entity id='timeText' scale='.02 .02 .02' n-text='text: 00:00'></a-entity>
 					<a-cylinder id='timerHourUp' position='-.04 .01 0' rotation='-90 0 0' scale='.01 .001 .008' color='green' segments-radial='3' segments-height='1' n-box-collider></a-cylinder>
@@ -232,11 +232,12 @@
 					<a-plane id='timerResetButton' position='.03 -.03 0' scale='.01 .01 .01' src='textures/button.png' transparent='true' color='red' n-text='horizontalAlign: left; width: 5.2; fontSize: 6; text: Reset' n-box-collider></a-plane>
 				</a-entity>
 
-				<a-entity position='.15 -.06 .011' scale='1 1 1'>
+				<a-entity position='.15 -.035 .011' scale='1 1 1'>
 					<a-entity position='0 0 0' scale='.015 .015 .015' n-text='text: Game Options'></a-entity>
-					<a-plane id='manJoinB' position='.05 -.035 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 7.1; text: Manual Join' n-box-collider></a-plane>
+					<a-plane id='manJoinB' position='.05 -.035 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 7; text: Manual Join' n-box-collider></a-plane>
 					<a-plane id='hostManJoinB' position='.05 -.07 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 9; text: Host Manual Join' n-box-collider></a-plane>
-					<a-plane id='endKickB' position='.05 -.105 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 8.2; text: Game End Kick' n-box-collider></a-plane>
+					<a-plane id='questionsFirstB' position='.05 -.105 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 10.5; text: Show Questions First' n-box-collider></a-plane>
+					<a-plane id='endKickB' position='.05 -.14 .005' scale='.025 .025 .01' n-text='fontSize: 4; horizontalAlign: left; width: 8.2; text: Game End Kick' n-box-collider></a-plane>
 				</a-entity>
 			</a-entity>
 
@@ -473,7 +474,6 @@
 		function teleportToAudience() {
 			var i = Math.floor(Math.random() * targets.length)
 			playerPortal.setAttribute('n-portal', 'targetEntity',targets[i]);
-
 			playerPortal.setAttribute('position', '0 0 0');
 
 			setTimeout(function(){
@@ -493,6 +493,10 @@
 		function audienceLoad(obj) {			
 			obj.getObjectByName('audienceBase').material = new THREE.MeshBasicMaterial({color: 0x001234, transparent: true, opacity: 0.2, side: THREE.DoubleSide});
 			obj.getObjectByName('audienceWall').material = new THREE.MeshBasicMaterial({visible: false});
+			obj.getObjectByName('audienceWallFront').material = new THREE.MeshBasicMaterial({visible: false});
+			if (isMod) {
+				obj.getObjectByName('audienceWallFront').position.y = -1;
+			}
 
 			audienceStand.setObject3D('mesh', obj);
 			audienceStand.emit('model-loaded', {format: 'obj', model: obj});
@@ -656,14 +660,15 @@
 					if(data.val().userId == user.userId) {
 						isHost = true;
 						console.log('You are host!');
-						colliders.setAttribute('n-mesh-collider', 'type: environment; convex: false');
+						
 						if (inPlayground) {
 							stageTeleporter.object3D.position.y = -10;
 							stageFloor.object3D.position.y = 0;
+							audienceStand.object3D.getObjectByName('audienceWallFront').position.y = -1;
+						} else {
+							colliders.setAttribute('n-mesh-collider', 'type: environment; convex: false');
 						}
-						altspace.getSpace().then(function(space){
-							sync.instance.child('host').child('space').set(space.sid);
-						});
+						sync.instance.child('host').child('space').set(space.sid);
 						if (isActivity) {
 							sync.instance.child('host').onDisconnect().set(null);
 						}
@@ -691,8 +696,12 @@
 						if (inPlayground) {
 							stageTeleporter.object3D.position.y = 0;
 							stageFloor.object3D.position.y = -1;
+							if (!isMod) {
+								audienceStand.object3D.getObjectByName('audienceWallFront').position.y = 0;
+							}
+						} else {
+							colliders.removeAttribute('n-mesh-collider');
 						}
-						colliders.removeAttribute('n-mesh-collider');
 					}
 				}
 			});
@@ -727,6 +736,12 @@
 						h1Join.setAttribute('position', '0 -.5 0');
 					}
 
+					if (settings.questionsFirst) {
+						questionsFirstB.setAttribute('src', 'textures/true.png');
+					} else {
+						questionsFirstB.setAttribute('src', 'textures/false.png');
+					}
+
 					if (settings.endGameKick) {
 						endKickB.setAttribute('src', 'textures/true.png');
 					} else {
@@ -738,14 +753,13 @@
 						hostManJoinB.setAttribute('color', '#666');
 					}
 				} else {
-					sync.instance.child('settings').set({manualJoin: (isActivity ? true : false), endGameKick: false, manualJoinHost: (isActivity ? true : false)});
+					sync.instance.child('settings').set({manualJoin: (isActivity ? true : false), manualJoinHost: (isActivity ? true : false), questionsFirst: true, endGameKick: false});
 				}
 			});
 			
 			var checkedSpace = false;
 			sync.instance.child('players').on('value', function(data){
 				if (data.val() != null) {
-					//console.log(data.val());
 					players = data.val();
 					joined = 0;
 					scores = [];
@@ -812,10 +826,12 @@
 						}
 					}
 					if (joined != 0) {
-						colliders.setAttribute('n-mesh-collider', 'type: environment; convex: false');
 						if (inPlayground) {
 							stageTeleporter.object3D.position.y = -10;
 							stageFloor.object3D.position.y = 0;
+							audienceStand.object3D.getObjectByName('audienceWallFront').position.y = -1;
+						} else {
+							colliders.setAttribute('n-mesh-collider', 'type: environment; convex: false');
 						}
 						for (var i = 1; i < 6; i++) {
 							document.querySelector('#p' + i + 'Join').setAttribute('position', '0 -.5 0');
@@ -824,10 +840,14 @@
 						if (colliders.getAttribute('n-mesh-collider') != null && !isMod) {
 							teleportToAudience();
 						}
-						colliders.removeAttribute('n-mesh-collider');
 						if (inPlayground) {
 							stageTeleporter.object3D.position.y = 0;
 							stageFloor.object3D.position.y = -1;
+							if (!isMod) {
+								audienceStand.object3D.getObjectByName('audienceWallFront').position.y = 0;
+							}
+						} else {
+							colliders.removeAttribute('n-mesh-collider');
 						}
 					}
 				} else {
@@ -917,19 +937,12 @@
 		        }
 		        setColor(p - 1, 'buzzed');
 		        setPanelLight(p - 1, true);
-
-	        //if (!done) {
-	          //sound.components['n-sound'].playSound();
-	          //done = true;
 	          playerBuzzedIn = p;
-
 	          setBorderColor(p);
-	        //}
 	      }
 	    });
 
 			function setBorderColor(color) {
-				//console.log('set border: ', color)
 				bigScreen.object3D.getObjectByName('border').material.map.offset.x = 0;
 				bigScreen.object3D.getObjectByName('border').material.color.set(podiumColors[color]);
 				hostPodium.object3D.getObjectByName('border').material.color.set(podiumColors[color]);
@@ -1277,6 +1290,18 @@
 				}
 			});
 
+			var answersOnScreen;
+			sync.instance.child('answersOnScreen').on('value', function(data){
+				if (data.val() != null) {
+					answersOnScreen = data.val();
+					if (mode == 'question' && answersOnScreen) {
+						showAnswers();
+					}
+				} else {
+					sync.instance.child('answersOnScreen').set(true);
+				}
+			});
+
 			sync.instance.child('selectedAnswer').on('value', function(data){
 				resetScreenButtons();
 				if (data.val() != null) {
@@ -1482,7 +1507,7 @@
       });
 
       function buzz(i) {
-      	if (joined == i && playerBuzzedIn == null && mode == 'question') {
+      	if (joined == i && playerBuzzedIn == null && mode == 'question' && answersOnScreen) {
           sync.instance.child('buzz').push(i.toString());
           
           buzzIn.components.sync.takeOwnership();
@@ -1698,32 +1723,53 @@
 		    questionT.setAttribute('n-text', 'text', (current + 1) +  ': ' + q.question.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
 		    questionTScreen.setAttribute('n-text', 'text', q.question.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
 
-		    var answers = q.answers
+				if (mode == 'question' && answersOnScreen) {
+					showAnswers();
+				} else {
+					aT.setAttribute('n-text', 'text', 'A: ');
+					bT.setAttribute('n-text', 'text', 'B: ');
+					cT.setAttribute('n-text', 'text', 'C: ');
+					dT.setAttribute('n-text', 'text', 'D: ');
+					aTScreen.setAttribute('n-text', 'text', 'A: ');
+					bTScreen.setAttribute('n-text', 'text', 'B: ');
+					cTScreen.setAttribute('n-text', 'text', 'C: ');
+					dTScreen.setAttribute('n-text', 'text', 'D: ');
 
-		    var sizes = getSizes(answers);
-		    
-		    aT.setAttribute('n-text', 'text', 'A: ' + answers[0].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-		    bT.setAttribute('n-text', 'text', 'B: ' + answers[1].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-		    cT.setAttribute('n-text', 'text', 'C: ' + answers[2].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-		    dT.setAttribute('n-text', 'text', 'D: ' + answers[3].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-
-		    aTScreen.setAttribute('n-text', 'text', 'A: ' + answers[0].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-		    bTScreen.setAttribute('n-text', 'text', 'B: ' + answers[1].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-		    cTScreen.setAttribute('n-text', 'text', 'C: ' + answers[2].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-		    dTScreen.setAttribute('n-text', 'text', 'D: ' + answers[3].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-
-		    aT.setAttribute('n-text', 'fontSize', sizes[0]);
-		    bT.setAttribute('n-text', 'fontSize', sizes[1]);
-		    cT.setAttribute('n-text', 'fontSize', sizes[2]);
-		    dT.setAttribute('n-text', 'fontSize', sizes[3]);
-
-		    aTScreen.setAttribute('n-text', 'fontSize', sizes[0]);
-		    bTScreen.setAttribute('n-text', 'fontSize', sizes[1]);
-		    cTScreen.setAttribute('n-text', 'fontSize', sizes[2]);
-		    dTScreen.setAttribute('n-text', 'fontSize', sizes[3]);
+					aT.setAttribute('n-text', 'fontSize', 5);
+					bT.setAttribute('n-text', 'fontSize', 5);
+					cT.setAttribute('n-text', 'fontSize', 5);
+					dT.setAttribute('n-text', 'fontSize', 5);
+					aTScreen.setAttribute('n-text', 'fontSize', 5);
+					bTScreen.setAttribute('n-text', 'fontSize', 5);
+					cTScreen.setAttribute('n-text', 'fontSize', 5);
+					dTScreen.setAttribute('n-text', 'fontSize', 5);
+				}
 
 		    answer = q.correct_answer;
 		  }
+
+			function showAnswers() {
+				var answers = questions[currentCategory][currentDiff][current].answers
+				var sizes = getSizes(answers);
+				
+				aT.setAttribute('n-text', 'text', 'A: ' + answers[0].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+				bT.setAttribute('n-text', 'text', 'B: ' + answers[1].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+				cT.setAttribute('n-text', 'text', 'C: ' + answers[2].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+				dT.setAttribute('n-text', 'text', 'D: ' + answers[3].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+				aTScreen.setAttribute('n-text', 'text', 'A: ' + answers[0].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+				bTScreen.setAttribute('n-text', 'text', 'B: ' + answers[1].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+				cTScreen.setAttribute('n-text', 'text', 'C: ' + answers[2].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+				dTScreen.setAttribute('n-text', 'text', 'D: ' + answers[3].normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+
+				aT.setAttribute('n-text', 'fontSize', sizes[0]);
+				bT.setAttribute('n-text', 'fontSize', sizes[1]);
+				cT.setAttribute('n-text', 'fontSize', sizes[2]);
+				dT.setAttribute('n-text', 'fontSize', sizes[3]);
+				aTScreen.setAttribute('n-text', 'fontSize', sizes[0]);
+				bTScreen.setAttribute('n-text', 'fontSize', sizes[1]);
+				cTScreen.setAttribute('n-text', 'fontSize', sizes[2]);
+				dTScreen.setAttribute('n-text', 'fontSize', sizes[3]);
+			}
 
 		  function categorySelect() {
 		  	questionT.setAttribute('n-text', 'text', 'Select a Category');
@@ -1966,24 +2012,6 @@
 			  	sync.instance.child('buzz').set(null);
 		  	}
 			});
-			var resetPopupShow;
-			var resetPopupHide;
-			resetB.addEventListener('mouseenter', function(){
-		  	if (isHost || isMod) {
-					clearTimeout(resetPopupHide);
-					resetPopupShow = setTimeout(function(){
-						resetPopup.object3D.position.z = .2;
-					}, 500);
-		  	}
-			});
-			resetB.addEventListener('mouseleave', function(){
-		  	if (isHost || isMod) {
-					clearTimeout(resetPopupShow);
-					resetPopupHide = setTimeout(function(){
-						resetPopup.object3D.position.z = -1;
-					}, 1000);
-		  	}
-			});
 			
 			var hostPanelState = false;
 			controlB.addEventListener('mouseup', function(){
@@ -2005,46 +2033,35 @@
 				new TWEEN.Tween(hostControlPanel.object3D.rotation).to(controlPanelPos[i].rot, 500).start();
 			}
 
-			var controlPopupShow;
-			var controlPopupHide;
-			controlB.addEventListener('mouseenter', function(){
-		  	if (isHost || isMod) {
-					clearTimeout(controlPopupHide);
-					controlPopupShow = setTimeout(function(){
-						controlPopup.object3D.position.z = .2;
-					}, 500);
-		  	}
-			});
-			controlB.addEventListener('mouseleave', function(){
-		  	if (isHost || isMod) {
-					clearTimeout(controlPopupShow);
-					controlPopupHide = setTimeout(function(){
-						controlPopup.object3D.position.z = -1;
-					}, 1000);
-		  	}
-			});
+			function addPopup(button,label) {
+				label.object3D.scale.setScalar(.0001);
+				var popupShow;
+				var popupHide;
+				button.addEventListener('mouseenter', function(){
+					if (isHost || isMod) {
+						clearTimeout(popupHide);
+						popupShow = setTimeout(function(){
+							label.object3D.scale.setScalar(1);
+						}, 500);
+					}
+				});
+				button.addEventListener('mouseleave', function(){
+					if (isHost || isMod) {
+						clearTimeout(popupShow);
+						popupHide = setTimeout(function(){
+							label.object3D.scale.setScalar(.0001);
+						}, 1000);
+					}
+				});
+			}
+			
+			addPopup(controlB, controlPopup);
+			addPopup(helpB, helpPopup);
+			addPopup(resetB, resetPopup);
 
 			helpB.addEventListener('mouseup', function(){
 		  	if (isHost || isMod) {
 			  	altspace.open(location.origin + location.pathname + 'help/');
-		  	}
-			});
-			var helpPopupShow;
-			var helpPopupHide;
-			helpB.addEventListener('mouseenter', function(){
-		  	if (isHost || isMod) {
-					clearTimeout(helpPopupHide);
-					helpPopupShow = setTimeout(function(){
-						helpPopup.object3D.position.z = .2;
-					}, 500);
-		  	}
-			});
-			helpB.addEventListener('mouseleave', function(){
-		  	if (isHost || isMod) {
-					clearTimeout(helpPopupShow);
-					helpPopupHide = setTimeout(function(){
-						helpPopup.object3D.position.z = -1;
-					}, 1000);
 		  	}
 			});
 
@@ -2108,11 +2125,21 @@
 							startPregameCountdown();
 						}
 		  		} else if ((mode == 'category' && !answered) || mode == 'question' && !answered && ((playerBuzzedIn != null && selected != null) || (playerBuzzedIn == null && selected == null))) {
-		  			answerQuestion();
+		  			if (mode == 'category' && settings.questionsFirst) {
+							sync.instance.child('answersOnScreen').set(false);
+						}
+						if (mode == 'question' && !answersOnScreen) {
+							sync.instance.child('answersOnScreen').set(true);
+						} else {
+							answerQuestion();
+						}
 		  		} else if (mode == 'pregame' && (current == 9 || remainingPlayers < 6)) {
 						endPregame();
 					} else if ((answered && current < 4) || (mode == 'category' && selected != null) || (mode == 'pregame' && current < 9 && screenState == 2)) {
-		  			nextQuestion();
+		  			if (settings.questionsFirst) {
+							sync.instance.child('answersOnScreen').set(false);
+						}
+						nextQuestion();
 		  		}
 		  	}
 				updateButtonText();
@@ -2153,6 +2180,8 @@
 				} else if ((mode == 'category' && !answered) || mode == 'question' && !answered && ((playerBuzzedIn != null && selected != null) || (playerBuzzedIn == null && selected == null))) {
 					if (mode == 'category') {
 						str += 'Select Category';
+					} else if (!answersOnScreen) {
+						str += 'Show Answers';
 					} else if (playerBuzzedIn == null) {
 						str += 'Skip Question';
 					} else {
@@ -2187,6 +2216,12 @@
 					click.components['n-sound'].playSound();
 				}
 			});
+			questionsFirstB.addEventListener('mouseup', function(){
+				if (isHost || isMod) {
+					sync.instance.child('settings').child('questionsFirst').set(!settings.questionsFirst);
+					click.components['n-sound'].playSound();
+				}
+			});
 			endKickB.addEventListener('mouseup', function(){
 				if (isHost || isMod) {
 					sync.instance.child('settings').child('endGameKick').set(!settings.endGameKick);
@@ -2207,7 +2242,6 @@
 		  	document.querySelectorAll('.joinButton')[i].addEventListener('mouseup', function(e){
 			  	var i = parseInt(e.target.id.slice(1,2));
 			  	if (!players[i - 1].joined && joined == 0 && settings.manualJoin) {
-			  		//join
 			  		sync.instance.child('players').child(i - 1).set({displayName: user.displayName, id: user.userId, joined: true, score: 0});
 			  	}
 				});
