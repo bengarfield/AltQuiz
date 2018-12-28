@@ -1,3 +1,6 @@
+1.1.1
+- Fixed crown sizes for nova avatar system.
+
 1.1.0
 - Added "Show question first" option. Players can only buzz in once the answers are on the screen.
 - Removed front wall collider from audience area when player joins game.

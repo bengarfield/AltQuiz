@@ -50,7 +50,7 @@
 		<a-entity position='0 0 2.6'>
 			<a-entity id='screenContainer' position='0 0 1.2'>
 				<a-entity id='bigScreen' position='0 4.5 -4' scale='.45 .45 .45'>
-					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.1.0'></a-entity>
+					<a-entity position='0 -3.5 -.32' rotation='0 180 0' n-text='fontSize: 7; text: v1.1.1'></a-entity>
 
 					<a-plane scale='14 8 1' color='black'></a-plane>
 
@@ -384,6 +384,14 @@
 		<a-mixin id='robothead-propellerhead-01' position='0 .1 .08' scale='.12 .12 .12'></a-mixin>
 		<a-mixin id='robothead-roundguy-01' position='0 .17 .025' scale='.17 .17 .17'></a-mixin>
 		<a-mixin id='rubenoid' position='0 .11 .04' scale='.14 .14 .14'></a-mixin>
+
+		<a-mixin id='nova_robot_male' position='0 .1 .015' scale='.11 .11 .11'></a-mixin>
+		<a-mixin id='nova_robot_female' position='0 .1 .03' scale='.11 .11 .11'></a-mixin>
+		<a-mixin id='nova_robot_flow' position='0 .07 .01' scale='.1 .1 .1'></a-mixin>
+		<a-mixin id='nova_robot_visor' position='0 .11 .05' scale='.1 .1 .1'></a-mixin>
+		<a-mixin id='nova_robot-classic' position='0 .1 .04' scale='.14 .14 .14'></a-mixin>
+		<a-mixin id='nova_robothead_propellerhead' position='0 .1 .08' scale='.12 .12 .12'></a-mixin>
+		<a-mixin id='nova_bumblebee' position='0 .17 .025' scale='.17 .17 .17'></a-mixin>
 		
 		<a-mixin id='sync' n-skeleton-parent='part: head' sync sync-n-skeleton-parent></a-mixin>
 
@@ -1095,7 +1103,8 @@
 
 							if (winner.id == user.userId && !hasCrown) {
 								var avatar = user.avatarInfo.sid;
-								var avatars = ['s-series-m01','s-series-f01','a-series-m01','x-series-m02','pod-classic','robothead-propellerhead-01','robothead-roundguy-01'];
+								var avatars = ['s-series-m01','s-series-f01','a-series-m01','x-series-m02','pod-classic','robothead-propellerhead-01','robothead-roundguy-01',
+									'nova_robot_male','nova_robot_male','nova_robot_flow','nova_robot_visor','nova_robot_classic','nova_robothead_propellerhead','nova_bumblebee'];
 								if (avatars.indexOf(avatar) == -1) {
 									avatar = 'rubenoid';
 								}
