@@ -1,3 +1,6 @@
+1.1.2
+- Created new space template.
+
 1.1.1
 - Fixed crown sizes for nova avatar system.
 
